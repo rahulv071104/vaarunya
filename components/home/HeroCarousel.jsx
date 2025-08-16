@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/AppIcon';
@@ -13,16 +13,19 @@ import slide3 from '@/carousel_images/fruits_and_veg _mg.png';
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [translateX, setTranslateX] = useState(0);
+  const carouselRef = useRef(null);
 
- const slides = [
+  const slides = [
     {
       id: 1,
       title: "Global Export Excellence",
       subtitle: "Connecting businesses worldwide with premium quality products",
       backgroundImage: slide1,
       primaryCTA: { text: "Get Quote", link: "/get-quote-intelligent-conversion-portal" },
-      secondaryCTA: { text: "Explore Products", link: "/products" },
-      features: ["Global Network", "Quality Assured", "Transparent Process"]
+      secondaryCTA: { text: "Explore Products", link: "/categories" },
+      features: ["Global Network", "Quality Assured", "Transparent Process"],
     },
     {
       id: 2,
@@ -40,7 +43,7 @@ const HeroCarousel = () => {
       backgroundImage: slide3,
       primaryCTA: { text: "See Process", link: "/process-transparency-center" },
       secondaryCTA: { text: "Order Flow", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"]
+      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
     },
     {
       id: 4,
@@ -49,7 +52,7 @@ const HeroCarousel = () => {
       backgroundImage: slide4,
       primaryCTA: { text: "See Process", link: "/process-transparency-center" },
       secondaryCTA: { text: "Get Quote", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"]
+      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
     },
     {
       id: 5,
@@ -58,15 +61,16 @@ const HeroCarousel = () => {
       backgroundImage: slide5,
       primaryCTA: { text: "See Process", link: "/process-transparency-center" },
       secondaryCTA: { text: "About Us", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"]
-    }
-];
+      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
+    },
+  ];
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setTranslateX(0);
     }, 6000);
 
     return () => clearInterval(interval);
@@ -74,109 +78,140 @@ const HeroCarousel = () => {
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
+  // Touch event handlers
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setIsAutoPlaying(false);
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartX === null) return;
+    const touchCurrentX = e.targetTouches[0].clientX;
+    const deltaX = touchCurrentX - touchStartX;
+    setTranslateX(deltaX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null) return;
+
+    const minSwipeDistance = 50; // Minimum distance to trigger slide change
+    const containerWidth = carouselRef.current?.offsetWidth || 1; // Prevent division by zero
+    const swipePercentage = Math.abs(translateX) / containerWidth;
+
+    if (swipePercentage > 0.2 || Math.abs(translateX) > minSwipeDistance) {
+      if (translateX < 0) {
+        // Swipe left: Go to next slide
+        nextSlide();
+      } else {
+        // Swipe right: Go to previous slide
+        prevSlide();
+      }
+    } else {
+      // Snap back to current slide
+      setTranslateX(0);
+    }
+
+    setTouchStartX(null);
+  };
+
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div
+      className="relative h-screen overflow-hidden bg-black" // Added bg-black to prevent white screen
+      ref={carouselRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{ touchAction: 'pan-y' }} // Prevent vertical scroll during swipe
+    >
       {/* Slides */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <Image
-              src={slide.backgroundImage}
-              alt={slide.title}
-              width={2070}
-              height={1080}
-              className="w-full h-full object-cover"
-              priority={index === 0}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
-          </div>
+      <div className="relative w-full h-full">
+        {slides.map((slide, index) => {
+          const isCurrent = index === currentSlide;
+          const isPrev = index === (currentSlide - 1 + slides.length) % slides.length;
+          const isNext = index === (currentSlide + 1) % slides.length;
 
-          {/* Content */}
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
-              <div className="max-w-3xl mx-auto">
-                <div className="animation-fade-in">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-6 leading-tight">
-                    {slide.title}
-                  </h1>
-                  <p className="text-lg sm:text-xl text-gray-200 mb-8 leading-relaxed mx-auto">
-                    {slide.subtitle}
-                  </p>
+          let slidePosition = 0;
+          if (isCurrent) {
+            slidePosition = translateX;
+          } else if (isPrev) {
+            slidePosition = -100 + translateX / 10; // Show previous slide slightly during drag
+          } else if (isNext) {
+            slidePosition = 100 + translateX / 10; // Show next slide slightly during drag
+          } else {
+            slidePosition = index < currentSlide ? -100 : 100; // Off-screen for non-adjacent slides
+          }
 
-                  {/* Features */}
-                  {/* <div className="flex flex-wrap gap-4 mb-8 justify-center">
-                    {slide.features.map((feature, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full"
-                      >
-                        <Icon name="CheckCircle" size={16} className="text-primary" />
-                        <span className="text-white text-sm font-medium">{feature}</span>
+          return (
+            <div
+              key={slide.id}
+              className="absolute inset-0 w-full h-full transition-transform duration-300"
+              style={{
+                transform: `translateX(${slidePosition}%)`,
+                zIndex: isCurrent ? 10 : isPrev || isNext ? 5 : 0,
+              }}
+            >
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <Image
+                  src={slide.backgroundImage}
+                  alt={slide.title}
+                  width={2070}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                  priority={index === 0}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10 h-full flex items-center justify-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="animation-fade-in">
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-6 leading-tight">
+                        {slide.title}
+                      </h1>
+                      <p className="text-lg sm:text-xl text-gray-200 mb-8 leading-relaxed mx-auto">
+                        {slide.subtitle}
+                      </p>
+
+                      {/* CTAs */}
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link
+                          href={slide.secondaryCTA.link}
+                          className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
+                        >
+                          <Icon name="Play" size={20} className="mr-2" />
+                          {slide.secondaryCTA.text}
+                        </Link>
                       </div>
-                    ))}
-                  </div> */}
-
-                  {/* CTAs */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    {/* <Link
-                      href={slide.primaryCTA.link}
-                      className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300"
-                    >
-                      <Icon name="ArrowRight" size={20} className="mr-2" />
-                      {slide.primaryCTA.text}
-                    </Link> */}
-                    <Link
-                      href={slide.secondaryCTA.link}
-                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
-                    >
-                      <Icon name="Play" size={20} className="mr-2" />
-                      {slide.secondaryCTA.text}
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      ))}
-
-      {/* Navigation Arrows */}
-      {/* <button
-        onClick={prevSlide}
-        className="absolute left-4 lg:left-8 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all duration-300 z-20"
-        aria-label="Previous slide"
-      >
-        <Icon name="ChevronLeft" size={24} className="mx-auto" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 lg:right-8 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all duration-300 z-20"
-        aria-label="Next slide"
-      >
-        <Icon name="ChevronRight" size={24} className="mx-auto" />
-      </button> */}
+          );
+        })}
+      </div>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
@@ -193,16 +228,6 @@ const HeroCarousel = () => {
           />
         ))}
       </div>
-
-      {/* Progress Bar */}
-      {/* <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-20">
-        <div
-          className="h-full bg-primary transition-all duration-300"
-          style={{
-            width: `${((currentSlide + 1) / slides.length) * 100}%`
-          }}
-        />
-      </div> */}
     </div>
   );
 };
