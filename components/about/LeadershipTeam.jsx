@@ -23,7 +23,7 @@ const LeadershipTeam = () => {
       specialties: ["Strategic Planning", "International Relations", "Trade Policy"]
     },
     {
-      name: "Surya Teja Veeramachineni",
+      name: "Surya Teja Veeramachaneni",
       position: "Co-Founder and Chairman",
       experience: "12+ Years",
       image: slide3,

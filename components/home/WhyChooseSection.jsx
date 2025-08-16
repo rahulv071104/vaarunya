@@ -74,7 +74,7 @@ const WhyChooseSection = () => {
           Why Choose Vaarunya?
         </h2>
         <p className="text-lg text-secondary-light max-w-3xl mx-auto leading-relaxed">
-          We don't just facilitate trade—we build lasting partnerships that transcend borders, 
+          We don't just facilitate trade-we build lasting partnerships that transcend borders, 
           cultures, and expectations. Here's what sets us apart in the global marketplace.
         </p>
       </div>
@@ -173,7 +173,7 @@ const WhyChooseSection = () => {
             Ready to Experience the Difference?
           </h3>
           <p className="text-secondary-light mb-8 max-w-2xl mx-auto">
-            Join global buyers who trust Vaarunya for transparent sourcing and consistent quality—meeting your international trade needs with end-to-end export excellence.
+            Join global buyers who trust Vaarunya for transparent sourcing and consistent quality meeting your international trade needs with end-to-end export excellence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
