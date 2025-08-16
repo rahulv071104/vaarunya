@@ -14,8 +14,8 @@ const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [touchStartX, setTouchStartX] = useState(null);
-  const [translateX, setTranslateX] = useState(0); // Tracks slide movement during drag
-  const carouselRef = useRef(null); // Reference to carousel container
+  const [translateX, setTranslateX] = useState(0);
+  const carouselRef = useRef(null);
 
   const slides = [
     {
@@ -70,7 +70,7 @@ const HeroCarousel = () => {
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-      setTranslateX(0); // Reset translate on auto-slide
+      setTranslateX(0);
     }, 6000);
 
     return () => clearInterval(interval);
@@ -78,21 +78,21 @@ const HeroCarousel = () => {
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
-    setTranslateX(0); // Reset translate when manually selecting a slide
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
-    setTranslateX(0); // Reset translate on slide change
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    setTranslateX(0); // Reset translate on slide change
+    setTranslateX(0);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
@@ -100,96 +100,118 @@ const HeroCarousel = () => {
   // Touch event handlers
   const handleTouchStart = (e) => {
     setTouchStartX(e.targetTouches[0].clientX);
-    setIsAutoPlaying(false); // Pause autoplay during touch
+    setIsAutoPlaying(false);
   };
 
   const handleTouchMove = (e) => {
     if (touchStartX === null) return;
     const touchCurrentX = e.targetTouches[0].clientX;
     const deltaX = touchCurrentX - touchStartX;
-    setTranslateX(deltaX); // Update slide position during drag
+    setTranslateX(deltaX);
   };
 
   const handleTouchEnd = () => {
     if (touchStartX === null) return;
 
     const minSwipeDistance = 50; // Minimum distance to trigger slide change
-    if (translateX < -minSwipeDistance) {
-      // Swipe left: Go to next slide
-      nextSlide();
-    } else if (translateX > minSwipeDistance) {
-      // Swipe right: Go to previous slide
-      prevSlide();
+    const containerWidth = carouselRef.current?.offsetWidth || 1; // Prevent division by zero
+    const swipePercentage = Math.abs(translateX) / containerWidth;
+
+    if (swipePercentage > 0.2 || Math.abs(translateX) > minSwipeDistance) {
+      if (translateX < 0) {
+        // Swipe left: Go to next slide
+        nextSlide();
+      } else {
+        // Swipe right: Go to previous slide
+        prevSlide();
+      }
     } else {
       // Snap back to current slide
       setTranslateX(0);
     }
 
-    setTouchStartX(null); // Reset touch start
+    setTouchStartX(null);
   };
 
   return (
     <div
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen overflow-hidden bg-black" // Added bg-black to prevent white screen
       ref={carouselRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      style={{ touchAction: 'pan-y' }} // Prevent vertical scroll during swipe
     >
       {/* Slides */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-transform duration-300`}
-          style={{
-            transform: `translateX(${
-              index === currentSlide ? translateX : index < currentSlide ? -100 : 100
-            }%)`,
-            opacity: index === currentSlide ? 1 : 0,
-            transition: translateX === 0 ? 'opacity 1000ms, transform 300ms' : 'transform 0ms',
-          }}
-        >
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <Image
-              src={slide.backgroundImage}
-              alt={slide.title}
-              width={2070}
-              height={1080}
-              className="w-full h-full object-cover"
-              priority={index === 0}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
-          </div>
+      <div className="relative w-full h-full">
+        {slides.map((slide, index) => {
+          const isCurrent = index === currentSlide;
+          const isPrev = index === (currentSlide - 1 + slides.length) % slides.length;
+          const isNext = index === (currentSlide + 1) % slides.length;
 
-          {/* Content */}
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
-              <div className="max-w-3xl mx-auto">
-                <div className="animation-fade-in">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-6 leading-tight">
-                    {slide.title}
-                  </h1>
-                  <p className="text-lg sm:text-xl text-gray-200 mb-8 leading-relaxed mx-auto">
-                    {slide.subtitle}
-                  </p>
+          let slidePosition = 0;
+          if (isCurrent) {
+            slidePosition = translateX;
+          } else if (isPrev) {
+            slidePosition = -100 + translateX / 10; // Show previous slide slightly during drag
+          } else if (isNext) {
+            slidePosition = 100 + translateX / 10; // Show next slide slightly during drag
+          } else {
+            slidePosition = index < currentSlide ? -100 : 100; // Off-screen for non-adjacent slides
+          }
 
-                  {/* CTAs */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link
-                      href={slide.secondaryCTA.link}
-                      className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
-                    >
-                      <Icon name="Play" size={20} className="mr-2" />
-                      {slide.secondaryCTA.text}
-                    </Link>
+          return (
+            <div
+              key={slide.id}
+              className="absolute inset-0 w-full h-full transition-transform duration-300"
+              style={{
+                transform: `translateX(${slidePosition}%)`,
+                zIndex: isCurrent ? 10 : isPrev || isNext ? 5 : 0,
+              }}
+            >
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <Image
+                  src={slide.backgroundImage}
+                  alt={slide.title}
+                  width={2070}
+                  height={1080}
+                  className="w-full h-full object-cover"
+                  priority={index === 0}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10 h-full flex items-center justify-center">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="animation-fade-in">
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-6 leading-tight">
+                        {slide.title}
+                      </h1>
+                      <p className="text-lg sm:text-xl text-gray-200 mb-8 leading-relaxed mx-auto">
+                        {slide.subtitle}
+                      </p>
+
+                      {/* CTAs */}
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link
+                          href={slide.secondaryCTA.link}
+                          className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
+                        >
+                          <Icon name="Play" size={20} className="mr-2" />
+                          {slide.secondaryCTA.text}
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      ))}
+          );
+        })}
+      </div>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
