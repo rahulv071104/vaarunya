@@ -20,48 +20,52 @@ const HeroCarousel = () => {
   const slides = [
     {
       id: 1,
-      title: "Global Export Excellence",
-      subtitle: "Connecting businesses worldwide with premium quality products",
+      title: 'Global Export Excellence',
+      subtitle: 'Connecting businesses worldwide with premium quality products',
       backgroundImage: slide1,
-      primaryCTA: { text: "Get Quote", link: "/get-quote-intelligent-conversion-portal" },
-      secondaryCTA: { text: "Explore Products", link: "/categories" },
-      features: ["Global Network", "Quality Assured", "Transparent Process"],
+      primaryCTA: { text: 'Get Quote', link: '/get-quote-intelligent-conversion-portal' },
+      secondaryCTA: { text: 'Explore Products', link: '/categories' },
+      features: ['Global Network', 'Quality Assured', 'Transparent Process'],
     },
     {
       id: 2,
-      title: "Premium Quality Products",
-      subtitle: "From aromatic spices to finest textiles, discover our curated collection of export-quality products with international certifications.",
+      title: 'Premium Quality Products',
+      subtitle:
+        'From aromatic spices to finest textiles, discover our curated collection of export-quality products with international certifications.',
       backgroundImage: slide2,
-      primaryCTA: { text: "Explore Products", link: "/categories" },
-      secondaryCTA: { text: "View Certifications", link: "/about#certifications-gallery" }, // Updated link
-      features: ["ISO Certified", "FSSAI Approved", "Export Licensed"]
+      primaryCTA: { text: 'Explore Products', link: '/categories' },
+      secondaryCTA: { text: 'View Certifications', link: '/about#certifications-gallery' },
+      features: ['ISO Certified', 'FSSAI Approved', 'Export Licensed'],
     },
     {
       id: 3,
-      title: "Transparent Trade Process",
-      subtitle: "Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.",
+      title: 'Transparent Trade Process',
+      subtitle:
+        'Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.',
       backgroundImage: slide3,
-      primaryCTA: { text: "See Process", link: "/process-transparency-center" },
-      secondaryCTA: { text: "Order Flow", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
+      primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
+      secondaryCTA: { text: 'Order Flow', link: '/contact-global-accessibility-hub' },
+      features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
     {
       id: 4,
-      title: "Competitive & Transparent Pricing",
-      subtitle: "Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.",
+      title: 'Competitive & Transparent Pricing',
+      subtitle:
+        'Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.',
       backgroundImage: slide4,
-      primaryCTA: { text: "See Process", link: "/process-transparency-center" },
-      secondaryCTA: { text: "Get Quote", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
+      primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
+      secondaryCTA: { text: 'Get Quote', link: '/contact-global-accessibility-hub' },
+      features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
     {
       id: 5,
-      title: "Innovation in Export",
-      subtitle: "Our company is built on trust, transparency, and timely delivery. We keep you informed at every stage with a clear process and real-time tracking.",
+      title: 'Innovation in Export',
+      subtitle:
+        'Our company is built on trust, transparency, and timely delivery. We keep you informed at every stage with a clear process and real-time tracking.',
       backgroundImage: slide5,
-      primaryCTA: { text: "See Process", link: "/process-transparency-center" },
-      secondaryCTA: { text: "About Us", link: "/contact-global-accessibility-hub" },
-      features: ["Real-time Tracking", "Documentation Support", "Compliance Guidance"],
+      primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
+      secondaryCTA: { text: 'About Us', link: '/contact-global-accessibility-hub' },
+      features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
   ];
 
@@ -97,7 +101,6 @@ const HeroCarousel = () => {
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Touch event handlers
   const handleTouchStart = (e) => {
     setTouchStartX(e.targetTouches[0].clientX);
     setIsAutoPlaying(false);
@@ -113,20 +116,17 @@ const HeroCarousel = () => {
   const handleTouchEnd = () => {
     if (touchStartX === null) return;
 
-    const minSwipeDistance = 50; // Minimum distance to trigger slide change
-    const containerWidth = carouselRef.current?.offsetWidth || 1; // Prevent division by zero
+    const minSwipeDistance = 50;
+    const containerWidth = carouselRef.current?.offsetWidth || 1;
     const swipePercentage = Math.abs(translateX) / containerWidth;
 
     if (swipePercentage > 0.2 || Math.abs(translateX) > minSwipeDistance) {
       if (translateX < 0) {
-        // Swipe left: Go to next slide
         nextSlide();
       } else {
-        // Swipe right: Go to previous slide
         prevSlide();
       }
     } else {
-      // Snap back to current slide
       setTranslateX(0);
     }
 
@@ -135,12 +135,12 @@ const HeroCarousel = () => {
 
   return (
     <div
-      className="relative h-screen overflow-hidden bg-black" // Added bg-black to prevent white screen
+      className="relative h-screen overflow-hidden"
       ref={carouselRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      style={{ touchAction: 'pan-y' }} // Prevent vertical scroll during swipe
+      style={{ touchAction: 'pan-y' }}
     >
       {/* Slides */}
       <div className="relative w-full h-full">
@@ -153,17 +153,17 @@ const HeroCarousel = () => {
           if (isCurrent) {
             slidePosition = translateX;
           } else if (isPrev) {
-            slidePosition = -100 + translateX / 10; // Show previous slide slightly during drag
+            slidePosition = -100 + translateX / 5; // Reduced drag offset for tighter transitions
           } else if (isNext) {
-            slidePosition = 100 + translateX / 10; // Show next slide slightly during drag
+            slidePosition = 100 + translateX / 5; // Reduced drag offset for tighter transitions
           } else {
-            slidePosition = index < currentSlide ? -100 : 100; // Off-screen for non-adjacent slides
+            slidePosition = index < currentSlide ? -100 : 100;
           }
 
           return (
             <div
               key={slide.id}
-              className="absolute inset-0 w-full h-full transition-transform duration-300"
+              className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out"
               style={{
                 transform: `translateX(${slidePosition}%)`,
                 zIndex: isCurrent ? 10 : isPrev || isNext ? 5 : 0,
@@ -177,7 +177,8 @@ const HeroCarousel = () => {
                   width={2070}
                   height={1080}
                   className="w-full h-full object-cover"
-                  priority={index === 0}
+                  priority // Preload all images
+                  quality={90} // Optimize image quality
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
               </div>
@@ -196,6 +197,12 @@ const HeroCarousel = () => {
 
                       {/* CTAs */}
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link
+                          href={slide.primaryCTA.link}
+                          className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
+                        >
+                          {slide.primaryCTA.text}
+                        </Link>
                         <Link
                           href={slide.secondaryCTA.link}
                           className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
@@ -220,9 +227,7 @@ const HeroCarousel = () => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? 'bg-primary scale-125'
-                : 'bg-white/50 hover:bg-white/70'
+              index === currentSlide ? 'bg-primary scale-125' : 'bg-white/50 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
