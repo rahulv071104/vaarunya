@@ -197,12 +197,12 @@ const HeroCarousel = () => {
 
                       {/* CTAs */}
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link
-                          href={slide.primaryCTA.link}
-                          className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
-                        >
-                          {slide.primaryCTA.text}
-                        </Link>
+                      {/* <Link
+                        href={slide.primaryCTA.link}
+                        className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
+                      >
+                        {slide.primaryCTA.text}
+                      </Link> */}
                         <Link
                           href={slide.secondaryCTA.link}
                           className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
