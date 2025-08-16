@@ -192,7 +192,7 @@ const LeadershipTeam = () => {
               </div>
 
               <div className="prose prose-lg max-w-none text-secondary-light mb-6">
-                <p className="mb-4">{teamData[activeLeader].bio}</p>
+                <p className="mb-4 text-justify">{teamData[activeLeader].bio}</p>
               </div>
 
               <div className="border-l-4 border-primary pl-6 mb-6">

@@ -108,7 +108,7 @@ const OrderProcessingSteps = () => {
                     <h3 className="text-xl font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
                       {step.title}
                     </h3>
-                    <p className="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300 flex-grow">
+                    <p className="text-gray-600  leading-relaxed group-hover:text-gray-700 transition-colors duration-300 flex-grow">
                       {step.description}
                     </p>
                   </div>

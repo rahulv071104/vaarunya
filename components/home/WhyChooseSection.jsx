@@ -137,7 +137,7 @@ const WhyChooseSection = () => {
                       <h4 className="text-lg font-montserrat font-semibold text-secondary-dark mb-4">
                         Detailed Overview
                       </h4>
-                      <p className="text-secondary-light leading-relaxed mb-6">
+                      <p className="text-secondary-light leading-relaxed mb-6 text-justify">
                         {feature.fullDescription}
                       </p>
                       <Link

@@ -103,7 +103,7 @@ Our partnership philosophy extends to our supplier network as well. We work clos
                 </div>
 
                 <div className="prose prose-lg max-w-none text-secondary-light mb-6">
-                  <p className="mb-4">{value.detailedExplanation}</p>
+                  <p className="mb-4 text-justify">{value.detailedExplanation}</p>
                 </div>
 
                 <div className="mb-6">

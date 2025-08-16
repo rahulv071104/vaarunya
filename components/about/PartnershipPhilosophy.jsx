@@ -148,7 +148,7 @@ We maintain open channels of communication, provide regular updates, and address
                 </div>
 
                 <div className="prose prose-lg max-w-none text-secondary-light">
-                  <p className="mb-4">{principle.details}</p>
+                  <p className="mb-4 text-justify">{principle.details}</p>
                 </div>
               </div>
 

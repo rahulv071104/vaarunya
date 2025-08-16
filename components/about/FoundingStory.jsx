@@ -39,7 +39,7 @@ const FoundingStory = () => {
               {storyData.title}
             </h2>
             <div className="prose prose-lg max-w-none text-secondary-light mb-8">
-              <p className="mb-4">{storyData.story}</p>
+              <p className="mb-4 text-justify">{storyData.story}</p>
             </div>
 
         {/* Stats

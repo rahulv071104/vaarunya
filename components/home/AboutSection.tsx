@@ -7,7 +7,7 @@ const AboutSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* About Us Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10">
-          <div className="space-y-6">
+          <div className="space-y-6 text-justify">
             <h2 className="text-4xl font-bold text-secondary mb-6">About Vaarunya</h2>
             <p className="text-md text-gray-700 leading-relaxed">
               Vaarunya Global EXIM Pvt Ltd is a brand-led export house specializing in agriculture, leather, and FMCG commodities including spices, dairy, seafood, processed foods, and raw to finished leather. We source directly from certified MSMEs, SHGs, rural entrepreneurs, and proprietary organic farms ensuring transparent, demand-driven procurement that uplifts grassroots producers.
