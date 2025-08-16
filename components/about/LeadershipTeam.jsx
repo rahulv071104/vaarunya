@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Icon from'@/components/AppIcon';
 import Image from'next/image';
-import slide2 from '@/carousel_images/Agro_commodities_img.png';
-import slide1 from '@/carousel_images/cargo_img.png';
-import slide5 from '@/carousel_images/coffee_img.png';
-import slide4 from '@/carousel_images/spices_img.png';
-import slide3 from '@/carousel_images/fruits_and_veg _mg.png';
+import slide1 from '@/founders/mithilesh.jpeg';
+import slide2 from '@/founders/sri ram.jpeg';
+import slide3 from '@/founders/suraya.jpeg';
+
 
 const LeadershipTeam = () => {
   const [activeLeader, setActiveLeader] = useState(0);
@@ -27,7 +26,7 @@ const LeadershipTeam = () => {
       name: "Surya Teja Veeramachineni",
       position: "Co-Founder and Chairman",
       experience: "12+ Years",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      image: slide3,
       bio: `Surya Teja Veeramachineni is the Co-Founder and Chairman of Vaarunya Global EXIM, providing visionary leadership and shaping the company’s strategic direction, governance, and long-term positioning. With a deep-rooted belief in sustainable growth and inclusive value creation, Surya Teja plays a key role in shaping Vaarunya’s long-term strategy, governance, and global positioning.
       He brings a sharp entrepreneurial mindset and a strong focus on innovation, risk management, and stakeholder alignment ensuring the company remains resilient, future-focused, and impact-driven. As Chairman, Surya Teja champions Vaarunya’s mission of building a transparent, ethical, and high-performing export ecosystem that benefits both grassroots producers and global trade partners.
       His leadership continues to inspire the company’s pursuit of excellence, responsibility, and long-term impact.`,
@@ -39,7 +38,7 @@ const LeadershipTeam = () => {
       name: "Kusampudi Venkata Sriram Varma",
       position: "Co-Founder and Managing Director",
       experience: "10+ Years",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      image: slide2, 
       bio: `Kusampudi Venkata Sriram Varma is the Co-Founder and Managing Director of Vaarunya Global EXIM, playing a pivotal role in steering the company’s operational excellence and strategic growth. With a strong background in export management and business development, Sriram brings a pragmatic and results-driven approach to driving Vaarunya’s mission of transparent, quality-led exports that empower grassroots producers.
       His expertise spans supply chain optimization, compliance adherence, and building sustainable partnerships across agriculture, leather, and FMCG sectors. Sriram’s leadership is marked by his commitment to operational rigor, innovation, and fostering a culture of accountability ensuring that Vaarunya delivers consistent value to its global clients and Indian partners alike.`,
       philosophy: "Success is not just achieving milestones, but creating a culture where purpose drives performance, and values guide every decision.",

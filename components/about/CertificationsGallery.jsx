@@ -3,6 +3,26 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Icon from'@/components/AppIcon';
 import Image from'@/components/AppImage';
+import slide1 from '@/certifications/APEDA.png';
+import slide2 from '@/certifications/Startup India.png';
+import slide3 from '@/certifications/Spice Board.jpg';
+import slide4 from '@/certifications/Tea_Board_of_India.png';
+import slide5 from '@/certifications/Coffee_Board_of_India.jpg';
+import slide6 from '@/certifications/Cashew.jpg';
+import slide7 from '@/certifications/council-for-leather-exports.jpg';
+import slide8 from '@/certifications/fssai.png';
+import slide9 from '@/certifications/MPEDA.png';
+import slide10 from '@/certifications/MPEDA.png';
+import slide11 from '@/certifications/MPEDA.png';
+import slide12 from '@/certifications/MPEDA.png';
+import slide13 from '@/certifications/federation-of-indian-export-organisations.png';
+import slide14 from '@/certifications/FICCI.png';
+import slide15 from '@/certifications/MSME.png';
+import slide16 from '@/certifications/GST.png';
+import slide17 from '@/certifications/ISO.png';
+import slide18 from '@/certifications/Org Food.png';
+
+
 
 const CertificationsGallery = () => {
   const [selectedCertification, setSelectedCertification] = useState(null);
@@ -24,6 +44,7 @@ const CertificationsGallery = () => {
       ],
       scope: "Covers all aspects of our international trade operations including sourcing, quality control, and customer service.",
       icon: "Award"
+      
     },
     {
       id: 2,
