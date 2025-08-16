@@ -131,7 +131,7 @@ export default function About() {
                 Get Started Today
               </Link>
               <Link
-                href="/products"
+                href="/categories"
                 className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-primary transition-all duration-300"
               >
                 <Icon name="Package" size={20} className="mr-2" />

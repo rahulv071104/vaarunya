@@ -29,7 +29,7 @@ const HeroCarousel = () => {
       title: "Premium Quality Products",
       subtitle: "From aromatic spices to finest textiles, discover our curated collection of export-quality products with international certifications.",
       backgroundImage: slide2,
-      primaryCTA: { text: "Explore Products", link: "/products-interactive-category-explorer" },
+      primaryCTA: { text: "Explore Products", link: "/categories" },
       secondaryCTA: { text: "View Certifications", link: "/about#certifications-gallery" }, // Updated link
       features: ["ISO Certified", "FSSAI Approved", "Export Licensed"]
     },
