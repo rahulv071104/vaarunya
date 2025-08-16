@@ -30,105 +30,301 @@ const CertificationsGallery = () => {
   const certifications = [
     {
       id: 1,
-      title: "ISO 9001:2015",
-      category: "Quality Management",
-      issuer: "International Organization for Standardization",
-      validUntil: "2025-12-31",
-      description: "Quality Management Systems certification ensuring consistent quality in all our processes and services.",
-      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "APEDA",
+      category: "Agricultural Export Certification",
+      issuer: "Agricultural & Processed Food Products Export Development Authority (APEDA)",
+      validUntil: "DD-MM-YYYY",
+      description: "Registration-Cum-Membership Certificate (RCMC) with APEDA, the apex body promoting India’s Agri exports globally.",
+      image: slide1,
       benefits: [
-        "Consistent quality management processes",
-        "Continuous improvement framework",
-        "Customer satisfaction focus",
-        "Risk-based thinking approach"
+        "Access to APEDA schemes and subsidies",
+        "Participation in global trade fairs",
+        "Export market intelligence & training",
+        "Government-recognized exporter status"
       ],
-      scope: "Covers all aspects of our international trade operations including sourcing, quality control, and customer service.",
+      scope: "Covers exports of fruits, vegetables, cereals, dairy, meat, and processed foods under APEDA’s mandate.",
       icon: "Award"
       
     },
     {
       id: 2,
-      title: "FIEO Membership",
-      category: "Export Excellence",
-      issuer: "Federation of Indian Export Organisations",
-      validUntil: "2024-12-31",
-      description: "Membership in India\'s premier export promotion organization, recognizing our contribution to international trade.",
-      image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "Startup India Recognition",
+      category: "Government-Recognized Startup",
+      issuer: "Department for Promotion of Industry and Internal Trade (DPIIT)",
+      validUntil: "DD-MM-YYYY",
+      description: "Recognition under Startup India initiative, validating our innovation-driven business model in international trade.",
+      image: slide2,
       benefits: [
-        "Access to export promotion schemes",
-        "Government policy advocacy",
-        "International trade facilitation",
-        "Export excellence recognition"
+        "Access to government startup incentives",
+        "Tax and compliance benefits",
+        "Branding as an innovative enterprise",
+        "Eligibility for national and international startup platforms"
       ],
-      scope: "Validates our standing as a reliable export house with proven track record in international markets.",
+      scope: "Applies to our export-led startup registered as a DPIIT-recognized entity.",
       icon: "Globe"
     },
     {
       id: 3,
-      title: "Export Excellence Award",
-      category: "Industry Recognition",
-      issuer: "Ministry of Commerce & Industry, India",
-      validUntil: "Lifetime Achievement",
-      description: "Government recognition for outstanding performance in export trade and contribution to India\'s export growth.",
-      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "Spices Board of India",
+      category: "Export Compliance",
+      issuer: "Spices Board, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Authorized registration with India’s regulatory and export promotion authority for spices and spice products.",
+      image: slide3,
       benefits: [
-        "Government recognition and support",
-        "Priority in export promotion schemes",
-        "Enhanced credibility with partners",
-        "Access to exclusive trade missions"
+        "Legal eligibility to export spices",
+        "Access to quality testing and R&D labs",
+        "Buyer-seller meet facilitation",
+        "Spices Board assistance in global promotion"
       ],
-      scope: "Recognizes our significant contribution to India\'s export performance and international trade relations.",
+      scope: "Covers exports of whole, ground, and processed spices under regulatory quality norms.",
       icon: "Trophy"
     },
     {
       id: 4,
-      title: "Sustainable Trade Certification",
-      category: "Environmental Compliance",
-      issuer: "Global Sustainability Council",
-      validUntil: "2025-06-30",
-      description: "Certification for implementing sustainable practices in international trade operations and supply chain management.",
-      image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "Tea Board of India",
+      category: "Export Compliance",
+      issuer: "Tea Board, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Official license to export Indian tea under Tea Board compliance and global promotion framework.",
+      image: slide4,
       benefits: [
-        "Environmental impact reduction",
-        "Sustainable supply chain practices",
-        "Carbon footprint optimization",
-        "Green logistics implementation"
+        "Legal export clearance for tea",
+        "Quality and traceability certification",
+        "Support for GI-tagged Indian teas",
+        "Promotion through Tea Board channels"
       ],
-      scope: "Covers our commitment to environmental responsibility and sustainable business practices across all operations.",
+      scope: "Covers exports of CTC, orthodox, green, and specialty teas.",
       icon: "Leaf"
     },
     {
       id: 5,
-      title: "Trade Finance Accreditation",
-      category: "Financial Compliance",
-      issuer: "International Trade Finance Association",
-      validUntil: "2024-09-30",
-      description: "Accreditation for expertise in international trade finance, letters of credit, and payment security systems.",
-      image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "Coffee Board of India",
+      category: "Export Compliance",
+      issuer: "Coffee Board, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Registered exporter under Coffee Board of India for promoting high-quality Indian coffee globally.",
+      image: slide5,
       benefits: [
-        "Secure payment processing",
-        "Letters of credit expertise",
-        "Risk mitigation strategies",
-        "Financial compliance assurance"
+        "Access to export documentation and guidance",
+        "Quality assessment and grading support",
+        "Global buyer facilitation",
+        "Participation in coffee-specific export programs"
       ],
-      scope: "Validates our expertise in managing complex international payment systems and trade finance instruments.",
+      scope: "Covers green, roasted, and processed coffee exports.",
       icon: "CreditCard"
     },
     {
       id: 6,
-      title: "Digital Trade Platform Certification",
-      category: "Technology Excellence",
-      issuer: "International Digital Trade Council",
-      validUntil: "2025-03-31",
-      description: "Certification for implementing advanced digital technologies in trade processes and customer service delivery.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+      title: "Cashew Export Promotion Council of India (CEPCI)",
+      category: "Export Compliance",
+      issuer: "CEPCI, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Certified member of CEPCI, promoting Indian cashew kernel and value-added products in international markets.",
+      image: slide6,
       benefits: [
-        "Advanced digital trade processes",
-        "Real-time tracking and monitoring",
-        "Automated compliance checking",
-        "Enhanced customer experience"
+        "Trade promotion support",
+        "Exporter listing in global directories",
+        "Access to buyer meets and cashew trade fairs",
+        "Export subsidy scheme eligibility"
       ],
-      scope: "Recognizes our investment in cutting-edge technology to streamline international trade operations.",
+      scope: "Covers exports of raw, processed, and flavored cashew products.",
+      icon: "Smartphone"
+    },
+    {
+      id: 7,
+      title: "Council for Leather Exports (CLE)",
+      category: "Export Compliance",
+      issuer: "CLE, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Membership in CLE, India’s apex body for leather and leather goods exporters.",
+      image: slide7,
+      benefits: [
+        "Access to CLE export promotion incentives",
+        "Global trade mission participation",
+        "Product development and design support",
+        "International marketing platforms"
+      ],
+      scope: "Covers export of raw hides, semi-finished and finished leather, leather garments, footwear, and accessories.",
+      icon: "Smartphone"
+    },
+    {
+      id: 8,
+      title: "FSSAI Central License",
+      category: "Food Safety & Regulatory Compliance",
+      issuer: "Food Safety and Standards Authority of India",
+      validUntil: "DD-MM-YYYY",
+      description: "Mandatory license for food product manufacturing, handling, packaging, and export under India’s food safety law.",
+      image: slide8,
+      benefits: [
+        "Compliance with Indian food safety regulations",
+        "Export readiness for global food markets",
+        "Enhances buyer trust in food quality and safety",
+        "Supports batch-level traceability"
+      ],
+      scope: "Applies to all food categories including spices, dairy, seafood, meat, beverages, and processed goods.",
+      icon: "Smartphone"
+    },
+    {
+      id: 9,
+      title: "MPEDA Registration",
+      category: "Export Compliance",
+      issuer: "Marine Products Export Development Authority (MPEDA)",
+      validUntil: "DD-MM-YYYY",
+      description: "Authorized exporter of marine products under MPEDA’s quality and export development framework.",
+      image: slide9,
+      benefits: [
+        "Export eligibility for marine products",
+        "HACCP and traceability support",
+        "Access to global seafood expos",
+        "Government subsidy schemes & lab support"
+      ],
+      scope: "Covers fish, shrimp, crab, mollusks, and frozen seafood exports.",
+      icon: "Smartphone"
+    },
+    {
+      id: 10,
+      title: "Export Health Certificate (EHC)",
+      category: "Food Safety & Regulatory Compliance",
+      issuer: "Export Inspection Agency (EIA), Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "Mandatory certification for the export of food and seafood products, ensuring they meet health and hygiene regulations of importing countries.",
+      image: slide10,
+      benefits: [
+        "Required for food safety compliance",
+        "Avoids detention/rejection at destination ports",
+        "Enhances buyer confidence",
+        "Recognized by global regulatory bodies"
+      ],
+      scope: "Covers seafood, meat, dairy, and processed food shipments.",
+      icon: "Smartphone"
+    },
+    {
+      id: 11,
+      title: "Import-Export Code (IEC)",
+      category: "Export Compliance",
+      issuer: "Directorate General of Foreign Trade (DGFT)",
+      validUntil: "Lifetime (no expiry, unless canceled/surrendered)",
+      description: "A unique 10-digit identification number mandatory for all import and export activities in India.",
+      image: slide11,
+      benefits: [
+        "Legal authorization to trade internationally",
+        "Required for customs clearance and bank remittances",
+        "Enables access to export incentives and schemes"
+      ],
+      scope: "Applies to all products and international trade operations.",
+      icon: "Smartphone"
+    },
+    {
+      id: 12,
+      title: "Export Promotion Council (EPC) Registration",
+      category: "Export Compliance",
+      issuer: "Relevant EPC (Industry-specific)",
+      validUntil: "DD-MM-YYYY",
+      description: "Membership with sector-specific councils under India’s export promotion framework.",
+      image: slide12,
+      benefits: [
+        "Access to EPC services and subsidies",
+        "Buyer-seller meets and global market assistance",
+        "Training and trade advisory services"
+      ],
+      scope: "Applicable based on product category—agri, leather, FMCG, textiles, etc.",
+      icon: "Smartphone"
+    },
+    {
+      id: 13,
+      title: "Federation of Indian Export Organizations (FIEO)",
+      category: "Export Compliance",
+      issuer: "FIEO, Ministry of Commerce & Industry",
+      validUntil: "DD-MM-YYYY",
+      description: "National apex body representing Indian exporters across all sectors.",
+      image: slide13,
+      benefits: [
+        "Trade intelligence and legal assistance",
+        "Policy advocacy and buyer networking",
+        "Export excellence certification"
+      ],
+      scope: "Pan-industry export trade recognition and facilitation.",
+      icon: "Smartphone"
+    },
+    {
+      id: 14,
+      title: "Federation of Indian Chambers of Commerce & Industry (FICCI)",
+      category: "Export Compliance",
+      issuer: "FICCI",
+      validUntil: "DD-MM-YYYY",
+      description: "Membership with India’s oldest and most respected industry chamber, connecting businesses to policy and trade networks.",
+      image: slide14,
+      benefits: [
+        "Access to business forums and global investors",
+        "Market development and industry research",
+        "Credibility in domestic and international trade"
+      ],
+      scope: "Multi-sector business and export facilitation.",
+      icon: "Smartphone"
+    },
+    {
+      id: 15,
+      title: "MSME Registration (Udyam)",
+      category: "Business Recognition",
+      issuer: "Ministry of Micro, Small and Medium Enterprises",
+      validUntil: "DD-MM-YYYY",
+      description: "Official recognition as a registered MSME under Indian law, enabling access to government schemes.",
+      image: slide15,
+      benefits: [
+        "Priority access to export schemes",
+        "Financial aid and subsidy eligibility",
+        "Reduced compliance for small businesses"
+      ],
+      scope: "Applicable to registered manufacturing and service exporters.",
+      icon: "Smartphone"
+    },
+    {
+      id: 16,
+      title: "Goods & Services Tax (GST) Registration",
+      category: "GST – Export Compliance",
+      issuer: "CEPCI, Ministry of Commerce & Industry",
+      validUntil: "Active unless surrendered",
+      description: "Mandatory tax registration for businesses dealing in goods and services in India.",
+      image: slide16,
+      benefits: [
+        "Compliance with tax laws",
+        "Input tax credit eligibility",
+        "Required for export invoicing"
+      ],
+      scope: "Covers all domestic and export transactions.",
+      icon: "Smartphone"
+    },
+    {
+      id: 17,
+      title: "ISO 22000 / FSSC 22000",
+      category: "Food Safety & Regulatory Compliance",
+      issuer: "International Organization for Standardization",
+      validUntil: "DD-MM-YYYY",
+      description: "International food safety standard for controlling risks in food production, handling, and supply chain.",
+      image: slide17,
+      benefits: [
+        "Globally recognized food safety assurance",
+        "Builds buyer confidence in food safety compliance",
+        "Reduces food safety risks in export chain"
+      ],
+      scope: "Applies to food processors, packagers, warehouses, and exporters.",
+      icon: "Smartphone"
+    },
+    {
+      id: 18,
+      title: "Organic Food Certification (e.g., NPOP/NOP)",
+      category: "Food Safety & Regulatory Compliance",
+      issuer: "APEDA-authorized certification body (for NPOP)",
+      validUntil: "DD-MM-YYYY",
+      description: "Certification for organic farming and export, in compliance with national (NPOP) or international (NOP/EU) organic standards.",
+      image: slide18,
+      benefits: [
+        "Access to premium organic export markets",
+        "Compliance with international organic regulations",
+        "Consumer trust in clean and ethical sourcing"
+      ],
+      scope: "Covers organically grown and processed food products.",
       icon: "Smartphone"
     }
   ];
@@ -175,9 +371,9 @@ const CertificationsGallery = () => {
                   alt={cert.title}
                   className="w-full h-32 object-cover"
                 />
-                <div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                {/*<div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                   <Icon name={cert.icon} size={16} className="text-white" />
-                </div>
+                </div>*/}
               </div>
 
               <div className="mb-3">
