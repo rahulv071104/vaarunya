@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -47,14 +47,14 @@ const Header = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isClient && pathname === '/' && !isScrolled 
           ? 'bg-transparent' 
-          : 'bg-white/95 backdrop-blur-md shadow-card'
+          : 'bg-white/95 shadow-card md:backdrop-blur-md' // Apply backdrop-blur-md only for md and above
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link 
-            href="/homepage-premium-b2b-trade-platform" 
+            href="/" 
             className="flex items-center space-x-3 group"
             onClick={closeMenu}
           >
@@ -130,55 +130,60 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        <div 
-          className={`lg:hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen 
-              ? 'max-h-96 opacity-100 pb-6' 
-              : 'max-h-0 opacity-0 overflow-hidden'
-          }`}
-        >
-          <nav className="flex flex-col space-y-2 pt-4 border-t border-border-light">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.path}
-                onClick={closeMenu}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-montserrat font-medium transition-all duration-300 ${
-                  isClient && pathname === '/' && !isScrolled
-                    ? isActivePath(item.path)
-                      ? 'text-black'
-                      : 'text-white hover:text-primary hover:bg-accent/50'
-                    : isActivePath(item.path)
-                      ? 'text-primary bg-accent border-l-4 border-primary'
-                      : 'text-secondary hover:text-primary hover:bg-accent/50'
-                }`}
-              >
-                <Icon name={item.icon} size={20} />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-            
-            {/* Mobile CTA */}
-            <Link
-              href="/get-quote-intelligent-conversion-portal"
-              onClick={closeMenu}
-              className="flex items-center justify-center space-x-2 mt-4 px-6 py-3 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
-            >
-              <Icon name="MessageSquare" size={20} />
-              <span>Get Quote</span>
-            </Link>
-          </nav>
-        </div>
+      
       </div>
+      {/* Mobile Navigation */}
+<div 
+  className={`lg:hidden transition-all duration-300 ease-in-out ${
+    isMenuOpen 
+      ? 'max-h-96 opacity-100 pb-6' 
+      : 'max-h-0 opacity-0 overflow-hidden'
+  } bg-white relative z-50 pointer-events-auto`}
+>
+  <nav className="flex flex-col space-y-2 pt-4 border-t border-border-light">
+    {navigationItems.map((item) => (
+      <Link
+        key={item.name}
+        href={item.path}
+        onClick={closeMenu}
+        className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-montserrat font-medium transition-all duration-300 ${
+          isClient && pathname === '/' && !isScrolled
+            ? isActivePath(item.path)
+              ? 'text-black'
+              : 'text-secondary hover:text-primary hover:bg-accent/50'
+            : isActivePath(item.path)
+              ? 'text-primary bg-accent border-l-4 border-primary'
+              : 'text-secondary hover:text-primary hover:bg-accent/50'
+        }`}
+      >
+        <Icon name={item.icon} size={20} />
+        <span>{item.name}</span>
+      </Link>
+    ))}
+    
+    {/* Mobile CTA */}
+    <Link
+      href="/get-quote-intelligent-conversion-portal"
+      onClick={closeMenu}
+      className="flex items-center  space-x-2 px-4 py-3 text-primary font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
+    >
+      <Icon name="MessageSquare" size={20} />
+      <span>Get Quote</span>
+    </Link>
+  </nav>
+</div>
+
+{/* Mobile Menu Overlay */}
+{isMenuOpen && (
+  <div 
+    className="lg:hidden fixed inset-0 bg-black/40 z-30" 
+    onClick={closeMenu}
+  ></div>
+)}
+
 
       {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
-          onClick={closeMenu}
-        ></div>
-      )}
+    
     </header>
   );
 };

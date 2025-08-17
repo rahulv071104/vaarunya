@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ArrowRight,
   ArrowDown,
@@ -70,8 +70,18 @@ const OrderProcessingSteps = () => {
     }
   ];
 
+    useEffect(() => {
+    if (window.location.hash === '#order-processing-steps') {
+      const element = document.getElementById('order-processing-steps');
+      if (element) {
+        element.scrollIntoView({ behavior: 'instant' });
+      }
+    }
+  }, []);
+  
+
   return (
-    <div className="">
+    <div className="" id="order-processing-steps">
       <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-secondary mb-6">
           Order Processing Journey

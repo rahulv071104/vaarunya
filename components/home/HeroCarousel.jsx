@@ -44,7 +44,7 @@ const HeroCarousel = () => {
         'Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.',
       backgroundImage: slide3,
       primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
-      secondaryCTA: { text: 'Order Flow', link: '/contact-global-accessibility-hub' },
+      secondaryCTA: { text: 'Order Flow', link: '#order-processing-steps' },
       features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
     {
@@ -64,7 +64,7 @@ const HeroCarousel = () => {
         'Our company is built on trust, transparency, and timely delivery. We keep you informed at every stage with a clear process and real-time tracking.',
       backgroundImage: slide5,
       primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
-      secondaryCTA: { text: 'About Us', link: '/contact-global-accessibility-hub' },
+      secondaryCTA: { text: 'About Us', link: '/about' },
       features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
   ];

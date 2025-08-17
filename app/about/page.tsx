@@ -25,7 +25,7 @@ export default function About() {
   if (window.location.hash === '#certifications-gallery') {
     const element = document.getElementById('certifications-gallery');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'instant' });
     }
   }
 }, []);
