@@ -137,8 +137,7 @@ const ContactForm = () => {
     };
 
     try {
-      // Submit to database
-      const dbResponse = await fetch('/api/contact_form', {
+      const response = await fetch('/api/contact_form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -146,23 +145,9 @@ const ContactForm = () => {
         body: JSON.stringify(submissionData),
       });
 
-      if (!dbResponse.ok) {
-        const errorData = await dbResponse.json();
-        throw new Error(errorData.error || 'Failed to submit inquiry to database');
-      }
-
-      // Submit to Google Sheets
-      const sheetsResponse = await fetch('/api/google_sheets', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      if (!sheetsResponse.ok) {
-        const errorData = await sheetsResponse.json();
-        throw new Error(errorData.error || 'Failed to submit inquiry to Google Sheets');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit inquiry');
       }
 
       setSubmitSuccess(true);
