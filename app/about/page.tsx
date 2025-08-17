@@ -61,14 +61,14 @@ export default function About() {
             </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-          href="/get-quote-intelligent-conversion-portal"
+          href="/contact#contact-form"
           className="btn-primary inline-flex items-center"
           >
           <Icon name="MessageSquare" size={20} className="mr-2" />
           Start Partnership
           </Link>
           <Link
-          href="/contact-global-accessibility-hub"
+          href="#leadership-team"
           className="btn-secondary inline-flex items-center"
           >
           <Icon name="Users" size={20} className="mr-2" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from '@/components/AppIcon';
 
 const ContactForm = () => {
@@ -164,9 +164,17 @@ const ContactForm = () => {
       </div>
     );
   }
-
+  useEffect(() => {
+      if (window.location.hash === '#contact-form') {
+        const element = document.getElementById('contact-form');
+        if (element) {
+          element.scrollIntoView({ behavior: 'instant' });
+        }
+      }
+    }, []);
+ 
   return (
-    <div className="card-elevated p-8">
+    <div className="card-elevated p-8" id='contact-form'>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Inquiry Type Selection */}
         <div>

@@ -54,7 +54,7 @@ const HeroCarousel = () => {
         'Experience complete transparency from order to delivery with our step-by-step process visualization and real-time tracking.',
       backgroundImage: slide4,
       primaryCTA: { text: 'See Process', link: '/process-transparency-center' },
-      secondaryCTA: { text: 'Get Quote', link: '/contact-global-accessibility-hub' },
+      secondaryCTA: { text: 'Get Quote', link: '/contact#contact-form' },
       features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
     {

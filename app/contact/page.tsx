@@ -74,10 +74,10 @@ export default function ContactPage() {
   ];
 
   const quickLinks = [
-    { name: "Get Quote", path: "/get-quote-intelligent-conversion-portal", icon: "Calculator" },
-    { name: "Our Products", path: "/products-interactive-category-explorer", icon: "Package" },
+    { name: "Get Quote", path: "#contact-form", icon: "Calculator" },
+    { name: "Our Products", path: "/categories", icon: "Package" },
 // { name: "Our Process", path: "/process-transparency-center", icon: "GitBranch" },
-    { name: "About Us", path: "/about-trust-building-corporate-story", icon: "Users" }
+    { name: "About Us", path: "/about", icon: "Users" }
   ];
 
   return (

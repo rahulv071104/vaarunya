@@ -21,7 +21,7 @@ export default function ContactPage() {
     }, 60000);
     return () => clearInterval(timer);
   }, []);
-
+  
   const contactMethods = [
     {
       type: "Phone",

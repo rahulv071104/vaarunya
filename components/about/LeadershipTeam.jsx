@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Icon from'@/components/AppIcon';
 import Image from'next/image';
@@ -47,9 +47,17 @@ const LeadershipTeam = () => {
     },
 
   ];
+  useEffect(() => {
+      if (window.location.hash === '#leadership-team') {
+        const element = document.getElementById('order-processing-steps');
+        if (element) {
+          element.scrollIntoView({ behavior: 'instant' });
+        }
+      }
+    }, []);
 
   return (
-    <section className="py-16 lg:py-20 bg-background">
+    <section className="py-16 lg:py-20 bg-background" id='leadership-team'>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12 lg:mb-16"

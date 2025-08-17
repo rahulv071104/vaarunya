@@ -57,13 +57,13 @@ export default function Footer() {
               <Link href="#" className="block text-gray-300 hover:text-white transition-colors">
                 Home
               </Link>
-              <Link href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <Link href="/about" className="block text-gray-300 hover:text-white transition-colors">
                 About Us
               </Link>
-              <Link href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <Link href="/categories" className="block text-gray-300 hover:text-white transition-colors">
                 Products
               </Link>
-              <Link href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <Link href="/contact" className="block text-gray-300 hover:text-white transition-colors">
                 Contact Us
               </Link>
             </nav>

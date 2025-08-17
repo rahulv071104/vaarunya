@@ -177,14 +177,14 @@ const WhyChooseSection = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/contact"
+              href="/contact#contact-form"
               className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300"
             >
               <Icon name="MessageSquare" size={20} className="mr-2" />
               Get Your Quote
             </Link>
             <Link
-              href="/process-transparency-center"
+              href="#order-processing-steps"
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-primary text-primary font-montserrat font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300"
             >
               <Icon name="Eye" size={20} className="mr-2" />

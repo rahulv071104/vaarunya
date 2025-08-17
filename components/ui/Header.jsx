@@ -104,7 +104,7 @@ const Header = () => {
           {/* CTA Button & Mobile Menu Toggle */}
           <div className="flex items-center space-x-4">
             <Link
-              href="/get-quote-intelligent-conversion-portal"
+              href="/contact#contact-form"
               className={`hidden sm:inline-flex items-center px-6 py-2.5 font-montserrat font-semibold rounded-lg transition-all duration-300 ${
                 isClient && pathname === '/' && !isScrolled
                   ? 'bg-primary text-white hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5'

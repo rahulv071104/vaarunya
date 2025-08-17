@@ -17,7 +17,7 @@ const CantFindYourProduct = () => {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/products"
+            href="/categories"
             className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300"
           >
             <Icon name="Search" size={20} className="mr-2" />
