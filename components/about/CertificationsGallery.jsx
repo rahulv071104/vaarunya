@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Icon from'@/components/AppIcon';
-import Image from'@/components/AppImage';
+import Icon from '@/components/AppIcon';
+import Image from 'next/image';
 import slide1 from '@/certifications/APEDA.png';
 import slide2 from '@/certifications/Startup India.png';
 import slide3 from '@/certifications/Spice Board.jpg';
@@ -22,10 +22,9 @@ import slide16 from '@/certifications/GST.png';
 import slide17 from '@/certifications/ISO.png';
 import slide18 from '@/certifications/Org Food.png';
 
-
-
 const CertificationsGallery = () => {
   const [selectedCertification, setSelectedCertification] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to toggle between showing 6 or all certifications
 
   const certifications = [
     {
@@ -44,7 +43,6 @@ const CertificationsGallery = () => {
       ],
       scope: "Covers exports of fruits, vegetables, cereals, dairy, meat, and processed foods under APEDA’s mandate.",
       icon: "Award"
-      
     },
     {
       id: 2,
@@ -331,6 +329,9 @@ const CertificationsGallery = () => {
 
   const categories = [...new Set(certifications.map(cert => cert.category))];
 
+  // Determine which certifications to display based on showAll state
+  const displayedCertifications = showAll ? certifications : certifications.slice(0, 6);
+
   return (
     <section className="py-16 lg:py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -355,7 +356,7 @@ const CertificationsGallery = () => {
 
         {/* Certifications Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {certifications.map((cert, index) => (
+          {displayedCertifications.map((cert, index) => (
             <motion.div
               key={cert.id}
               className="card-elevated p-6 cursor-pointer hover:shadow-hover transition-all duration-300"
@@ -371,9 +372,6 @@ const CertificationsGallery = () => {
                   alt={cert.title}
                   className="w-full h-32 object-cover"
                 />
-                {/*<div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <Icon name={cert.icon} size={16} className="text-white" />
-                </div>*/}
               </div>
 
               <div className="mb-3">
@@ -403,6 +401,19 @@ const CertificationsGallery = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* View More Button */}
+        {!showAll && certifications.length > 6 && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-full font-montserrat font-medium hover:bg-primary-dark transition-colors duration-300"
+            >
+              View More
+              <Icon name="ChevronDown" size={16} className="ml-2" />
+            </button>
+          </div>
+        )}
 
         {/* Certification Modal */}
         {selectedCertification && (

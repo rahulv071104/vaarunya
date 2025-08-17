@@ -133,7 +133,7 @@ const OrderProcessingSteps = () => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="lg:hidden">
+        <div className="lg:hidden p-4">
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary opacity-30"></div>
 

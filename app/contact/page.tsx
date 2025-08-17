@@ -53,16 +53,6 @@ export default function ContactPage() {
         { type: " Global Partnerships", email: "partnerships@vaarunyaglobalexim.com", response: "Within 24 hours" }
       ],
       description: "Detailed inquiries and documentation"
-    },
-    {
-      type: "Live Chat",
-      icon: "MessageSquare",
-      title: "Live Chat Support",
-      details: [
-        { availability: "Monday - Friday", hours: "9:00 AM - 6:00 PM IST" },
-        { availability: "Weekend", hours: "10:00 AM - 4:00 PM IST" }
-      ],
-      description: "Real-time assistance from our team"
     }
   ];
 
@@ -110,7 +100,7 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
             {contactMethods.map((method, index) => (
               <div key={index} className="card-elevated p-6 hover:shadow-hover transition-all duration-300">
                 <div className="flex items-center mb-4">
@@ -137,12 +127,7 @@ export default function ContactPage() {
                           <span className="text-primary font-semibold">{detail.email}</span>
                         </div>
                       )}
-                    {'availability' in detail && (
-                      <div className="flex justify-between">
-                        <span className="font-medium text-secondary">{detail.availability}:</span>
-                        <span className="text-secondary-light">{detail.hours}</span>
-                      </div>
-                    )}
+                    
                     {'hours' in detail && !('availability' in detail) && (
                       <div className="text-secondary-light text-center">{detail.hours}</div>
                     )}

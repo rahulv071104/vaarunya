@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className=" text-white">
       <div className="container mx-auto px-6 ">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-">
           {/* Company Info Section */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
@@ -51,7 +51,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links Section */}
-          <div className="ml-30">
+          <div className="md:ml-28">
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
             <nav className="space-y-4">
               <Link href="#" className="block text-gray-300 hover:text-white transition-colors">
@@ -70,8 +70,8 @@ export default function Footer() {
           </div>
 
           {/* Contact Info Section */}
-          <div>
-            <h3 className="text-gray-100 text-xl font-semibold mb-6">Contact Info</h3>
+          <div className="mt-8 md:mt-0">
+            <h3 className="text-gray-100 text-xl font-semibold mb-2">Contact Info</h3>
             <div className="space-y-4">
               <div className="text-gray-300">
                 <p>51-6-9, Vijayawada Muncipa Corporation</p>
