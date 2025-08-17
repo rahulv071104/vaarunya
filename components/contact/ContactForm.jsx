@@ -3,25 +3,26 @@ import Icon from '@/components/AppIcon';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    inquiryType: '',
-    firstName: '',
-    lastName: '',
+    inquiry_type: '',
+    first_name: '',
+    last_name: '',
     email: '',
     phone: '',
     company: '',
     country: '',
-    productCategories: [],
-    orderVolume: '',
-    deliveryRegion: '',
-    communicationFrequency: '',
+    product_categories: [],
+    order_volume: '',
+    delivery_region: '',
+    communication_frequency: '',
     message: '',
-    preferredContact: 'email',
+    preferred_contact: 'email',
     urgency: 'normal'
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [apiError, setApiError] = useState(null);
 
   const inquiryTypes = [
     { value: 'new-business', label: 'New Business Inquiry', icon: 'Plus' },
@@ -51,16 +52,25 @@ const ContactForm = () => {
     'Monthly Summaries', 'As Needed', 'Milestone Based'
   ];
 
+  useEffect(() => {
+    if (window.location.hash === '#contact-form') {
+      const element = document.getElementById('contact-form');
+      if (element) {
+        element.scrollIntoView({ behavior: 'instant' });
+      }
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     
     if (type === 'checkbox') {
-      if (name === 'productCategories') {
+      if (name === 'product_categories') {
         setFormData(prev => ({
           ...prev,
-          productCategories: checked
-            ? [...prev.productCategories, value]
-            : prev.productCategories.filter(cat => cat !== value)
+          product_categories: checked
+            ? [...prev.product_categories, value]
+            : prev.product_categories.filter(cat => cat !== value)
         }));
       }
     } else {
@@ -70,24 +80,24 @@ const ContactForm = () => {
       }));
     }
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
         [name]: ''
       }));
     }
+    setApiError(null);
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.inquiryType) newErrors.inquiryType = 'Please select an inquiry type';
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    if (!formData.inquiry_type) newErrors.inquiry_type = 'Please select an inquiry type';
+    if (!formData.first_name.trim()) newErrors.first_name = 'First name is required';
+    if (!formData.last_name.trim()) newErrors.last_name = 'Last name is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
@@ -95,13 +105,12 @@ const ContactForm = () => {
     if (!formData.country.trim()) newErrors.country = 'Country is required';
     if (!formData.message.trim()) newErrors.message = 'Message is required';
 
-    // Conditional validation based on inquiry type
-    if (formData.inquiryType === 'new-business') {
-      if (formData.productCategories.length === 0) {
-        newErrors.productCategories = 'Please select at least one product category';
+    if (formData.inquiry_type === 'new-business') {
+      if (formData.product_categories.length === 0) {
+        newErrors.product_categories = 'Please select at least one product category';
       }
-      if (!formData.orderVolume) newErrors.orderVolume = 'Please select expected order volume';
-      if (!formData.deliveryRegion) newErrors.deliveryRegion = 'Please select delivery region';
+      if (!formData.order_volume) newErrors.order_volume = 'Please select expected order volume';
+      if (!formData.delivery_region) newErrors.delivery_region = 'Please select delivery region';
     }
 
     setErrors(newErrors);
@@ -114,69 +123,102 @@ const ContactForm = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
+    setApiError(null);
+
+    const submissionData = {
+      ...formData,
+      product_categories: formData.inquiry_type === 'new-business' ? 
+        formData.product_categories : [],
+      order_volume: formData.inquiry_type === 'new-business' ? 
+        formData.order_volume : 'Not applicable',
+      delivery_region: formData.inquiry_type === 'new-business' ? 
+        formData.delivery_region : 'Not applicable',
+      communication_frequency: formData.communication_frequency || 'As Needed'
+    };
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Submit to database
+      const dbResponse = await fetch('/api/contact_form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!dbResponse.ok) {
+        const errorData = await dbResponse.json();
+        throw new Error(errorData.error || 'Failed to submit inquiry to database');
+      }
+
+      // Submit to Google Sheets
+      const sheetsResponse = await fetch('/api/google_sheets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!sheetsResponse.ok) {
+        const errorData = await sheetsResponse.json();
+        throw new Error(errorData.error || 'Failed to submit inquiry to Google Sheets');
+      }
+
       setSubmitSuccess(true);
       setFormData({
-        inquiryType: '',
-        firstName: '',
-        lastName: '',
+        inquiry_type: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phone: '',
         company: '',
         country: '',
-        productCategories: [],
-        orderVolume: '',
-        deliveryRegion: '',
-        communicationFrequency: '',
+        product_categories: [],
+        order_volume: '',
+        delivery_region: '',
+        communication_frequency: '',
         message: '',
-        preferredContact: 'email',
+        preferred_contact: 'email',
         urgency: 'normal'
       });
     } catch (error) {
+      setApiError(error.message);
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (submitSuccess) {
-    return (
-      <div className="card-elevated p-8 text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Icon name="CheckCircle" size={32} className="text-green-600" />
-        </div>
-        <h3 className="text-2xl font-montserrat font-bold text-secondary-dark mb-4">
-          Thank You for Reaching Out!
-        </h3>
-        <p className="text-secondary-light mb-6">
-          We've received your inquiry and will respond within our committed timeframe. 
-          Check your email for a confirmation with next steps.
-        </p>
-        <button
-          onClick={() => setSubmitSuccess(false)}
-          className="btn-secondary"
-        >
-          Submit Another Inquiry
-        </button>
+  const renderSuccessMessage = () => (
+    <div className="card-elevated p-8 text-center">
+      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <Icon name="CheckCircle" size={32} className="text-green-600" />
       </div>
-    );
-  }
-  useEffect(() => {
-      if (window.location.hash === '#contact-form') {
-        const element = document.getElementById('contact-form');
-        if (element) {
-          element.scrollIntoView({ behavior: 'instant' });
-        }
-      }
-    }, []);
- 
-  return (
-    <div className="card-elevated p-8" id='contact-form'>
+      <h3 className="text-2xl font-montserrat font-bold text-secondary-dark mb-4">
+        Thank You for Reaching Out!
+      </h3>
+      <p className="text-secondary-light mb-6">
+        We've received your inquiry and will respond within our committed timeframe. 
+        Check your email for a confirmation with next steps.
+      </p>
+      <button
+        onClick={() => setSubmitSuccess(false)}
+        className="btn-secondary"
+      >
+        Submit Another Inquiry
+      </button>
+    </div>
+  );
+
+  const renderForm = () => (
+    <div className="card-elevated p-8" id="contact-form">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Inquiry Type Selection */}
+        {apiError && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{apiError}</span>
+          </div>
+        )}
         <div>
           <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-3">
             Type of Inquiry *
@@ -186,15 +228,15 @@ const ContactForm = () => {
               <label
                 key={type.value}
                 className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300 ${
-                  formData.inquiryType === type.value
-                    ? 'border-primary bg-primary/5' :'border-gray-200 hover:border-primary/50'
+                  formData.inquiry_type === type.value
+                    ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50'
                 }`}
               >
                 <input
                   type="radio"
-                  name="inquiryType"
+                  name="inquiry_type"
                   value={type.value}
-                  checked={formData.inquiryType === type.value}
+                  checked={formData.inquiry_type === type.value}
                   onChange={handleInputChange}
                   className="sr-only"
                 />
@@ -203,12 +245,11 @@ const ContactForm = () => {
               </label>
             ))}
           </div>
-          {errors.inquiryType && (
-            <p className="mt-1 text-sm text-red-600">{errors.inquiryType}</p>
+          {errors.inquiry_type && (
+            <p className="mt-1 text-sm text-red-600">{errors.inquiry_type}</p>
           )}
         </div>
 
-        {/* Personal Information */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
@@ -216,16 +257,16 @@ const ContactForm = () => {
             </label>
             <input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="first_name"
+              value={formData.first_name}
               onChange={handleInputChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                errors.firstName ? 'border-red-500' : 'border-gray-300'
+                errors.first_name ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Enter your first name"
             />
-            {errors.firstName && (
-              <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+            {errors.first_name && (
+              <p className="mt-1 text-sm text-red-600">{errors.first_name}</p>
             )}
           </div>
           <div>
@@ -234,21 +275,20 @@ const ContactForm = () => {
             </label>
             <input
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="last_name"
+              value={formData.last_name}
               onChange={handleInputChange}
               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                errors.lastName ? 'border-red-500' : 'border-gray-300'
+                errors.last_name ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Enter your last name"
             />
-            {errors.lastName && (
-              <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
+            {errors.last_name && (
+              <p className="mt-1 text-sm text-red-600">{errors.last_name}</p>
             )}
           </div>
         </div>
 
-        {/* Contact Information */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
@@ -288,7 +328,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Company Information */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
@@ -328,10 +367,8 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Conditional Fields for New Business Inquiry */}
-        {formData.inquiryType === 'new-business' && (
+        {formData.inquiry_type === 'new-business' && (
           <>
-            {/* Product Categories */}
             <div>
               <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-3">
                 Product Categories of Interest *
@@ -341,9 +378,9 @@ const ContactForm = () => {
                   <label key={category} className="flex items-center">
                     <input
                       type="checkbox"
-                      name="productCategories"
+                      name="product_categories"
                       value={category}
-                      checked={formData.productCategories.includes(category)}
+                      checked={formData.product_categories.includes(category)}
                       onChange={handleInputChange}
                       className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                     />
@@ -351,23 +388,22 @@ const ContactForm = () => {
                   </label>
                 ))}
               </div>
-              {errors.productCategories && (
-                <p className="mt-1 text-sm text-red-600">{errors.productCategories}</p>
+              {errors.product_categories && (
+                <p className="mt-1 text-sm text-red-600">{errors.product_categories}</p>
               )}
             </div>
 
-            {/* Order Volume and Delivery Region */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
                   Expected Order Volume *
                 </label>
                 <select
-                  name="orderVolume"
-                  value={formData.orderVolume}
+                  name="order_volume"
+                  value={formData.order_volume}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                    errors.orderVolume ? 'border-red-500' : 'border-gray-300'
+                    errors.order_volume ? 'border-red-500' : 'border-gray-300'
                   }`}
                 >
                   <option value="">Select order volume</option>
@@ -375,8 +411,8 @@ const ContactForm = () => {
                     <option key={volume} value={volume}>{volume}</option>
                   ))}
                 </select>
-                {errors.orderVolume && (
-                  <p className="mt-1 text-sm text-red-600">{errors.orderVolume}</p>
+                {errors.order_volume && (
+                  <p className="mt-1 text-sm text-red-600">{errors.order_volume}</p>
                 )}
               </div>
               <div>
@@ -384,11 +420,11 @@ const ContactForm = () => {
                   Target Delivery Region *
                 </label>
                 <select
-                  name="deliveryRegion"
-                  value={formData.deliveryRegion}
+                  name="delivery_region"
+                  value={formData.delivery_region}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ${
-                    errors.deliveryRegion ? 'border-red-500' : 'border-gray-300'
+                    errors.delivery_region ? 'border-red-500' : 'border-gray-300'
                   }`}
                 >
                   <option value="">Select delivery region</option>
@@ -396,20 +432,19 @@ const ContactForm = () => {
                     <option key={region} value={region}>{region}</option>
                   ))}
                 </select>
-                {errors.deliveryRegion && (
-                  <p className="mt-1 text-sm text-red-600">{errors.deliveryRegion}</p>
+                {errors.delivery_region && (
+                  <p className="mt-1 text-sm text-red-600">{errors.delivery_region}</p>
                 )}
               </div>
             </div>
 
-            {/* Communication Frequency */}
             <div>
               <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
                 Preferred Communication Frequency
               </label>
               <select
-                name="communicationFrequency"
-                value={formData.communicationFrequency}
+                name="communication_frequency"
+                value={formData.communication_frequency}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
               >
@@ -422,7 +457,6 @@ const ContactForm = () => {
           </>
         )}
 
-        {/* Message */}
         <div>
           <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
             Message *
@@ -442,15 +476,14 @@ const ContactForm = () => {
           )}
         </div>
 
-        {/* Preferences */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-montserrat font-semibold text-secondary-dark mb-2">
               Preferred Contact Method
             </label>
             <select
-              name="preferredContact"
-              value={formData.preferredContact}
+              name="preferred_contact"
+              value={formData.preferred_contact}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
             >
@@ -470,20 +503,19 @@ const ContactForm = () => {
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300"
             >
-              <option value="normal">Urgent (2-4 hours)</option>
+              <option value="urgent">Urgent (2-4 hours)</option>
               <option value="high">High (6-8 hours)</option>
-              <option value="urgent">Normal (Within 24 hours)</option>
+              <option value="normal">Normal (Within 24 hours)</option>
             </select>
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
           className={`w-full py-4 px-6 font-montserrat font-bold text-lg rounded-lg transition-all duration-300 ${
             isSubmitting
-              ? 'bg-gray-400 text-gray-600 cursor-not-allowed' :'bg-primary text-white hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5'
+              ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5'
           }`}
         >
           {isSubmitting ? (
@@ -501,6 +533,8 @@ const ContactForm = () => {
       </form>
     </div>
   );
+
+  return submitSuccess ? renderSuccessMessage() : renderForm();
 };
 
 export default ContactForm;

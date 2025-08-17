@@ -34,6 +34,25 @@ export interface Product {
   subcategory?: Subcategory & { category?: Category }
 }
 
+export interface ContactInquiry {
+  id: string
+  inquiry_type: 'new-business' | 'existing-client' | 'partnership' | 'general'
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+  company: string
+  country: string
+  product_categories: string[]
+  order_volume: string
+  delivery_region: string
+  communication_frequency: string
+  message: string
+  preferred_contact: string
+  urgency: string
+  created_at: string
+}
+
 // API functions
 export const api = {
   // Categories
@@ -223,6 +242,47 @@ export const api = {
       .delete()
       .eq('uuid', uuid)
     
+    if (error) throw error
+  },
+
+  async getContactInquiries(filters?: { inquiry_type?: string; email?: string; company?: string }) {
+    let query = supabase.from('contact_inquiries').select('*')
+
+    if (filters?.inquiry_type) query = query.eq('inquiry_type', filters.inquiry_type)
+    if (filters?.email) query = query.eq('email', filters.email)
+    if (filters?.company) query = query.eq('company', filters.company)
+
+    const { data, error } = await query.order('created_at', { ascending: false })
+
+    if (error) throw error
+    return data as ContactInquiry[]
+  },
+
+  async createContactInquiry(payload: Omit<ContactInquiry, 'id' | 'created_at'>) {
+    const { data, error } = await supabase
+      .from('contact_inquiries')
+      .insert([payload])
+      .select()
+      .single()
+
+    if (error) throw error
+    return data as ContactInquiry
+  },
+
+  async updateContactInquiry(id: string, updates: Partial<Omit<ContactInquiry, 'id' | 'created_at'>>) {
+    const { data, error } = await supabase
+      .from('contact_inquiries')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) throw error
+    return data as ContactInquiry
+  },
+
+  async deleteContactInquiry(id: string) {
+    const { error } = await supabase.from('contact_inquiries').delete().eq('id', id)
     if (error) throw error
   }
 }
