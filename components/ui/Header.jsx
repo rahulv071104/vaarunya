@@ -21,13 +21,13 @@ const Header = () => {
   ];
 
   useEffect(() => {
-    setIsClient(true); // Mark as client-side after mounting
+    setIsClient(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial scroll position
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -53,67 +53,67 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          {isScrolled && (
-            <Link 
-              href="/" 
-              className="flex items-center space-x-3 group"
-              onClick={closeMenu}
-            >
-              <div className="flex-shrink-0 ml-[-10px]">
+          {/* Logo - Visible only when scrolled */}
+          <Link 
+            href="/" 
+            className="flex items-center space-x-3 group"
+            onClick={closeMenu}
+          >
+            <div className="flex-shrink-0 ml-[-10px]">
+              {isScrolled && (
                 <div className='flex flex-row space-x-0'>
                   <Image
-                  width={84}
-                  height={84}
-                  src={logo2}
-                  alt="Vaarunya Logo"
-                  className="h-12 w-auto object-contain"
-                />
-                   <Image
-                  width={84}
-                  height={84}
-                  src={logo}
-                  alt="Vaarunya Logo"
-                  className="h-12 w-auto object-contain"
-                />
-                
+                    width={84}
+                    height={84}
+                    src={logo2}
+                    alt="Vaarunya Logo"
+                    className="h-12 w-auto object-contain"
+                  />
+                  <Image
+                    width={84}
+                    height={84}
+                    src={logo}
+                    alt="Vaarunya Logo"
+                    className="h-12 w-auto object-contain"
+                  />
                 </div>
-               
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl lg:text-2xl font-montserrat font-bold text-secondary-dark group-hover:text-primary transition-colors duration-300">
-                  {/* Vaarunya */}
-                </h1>
-              </div>
-            </Link>
-          )}
+              )}
+            </div>
+            <div className="hidden sm:block">
+              <h1 className="text-xl lg:text-2xl font-montserrat font-bold text-secondary-dark group-hover:text-primary transition-colors duration-300">
+                {/* Vaarunya */}
+              </h1>
+            </div>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.path}
-                className={`relative px-4 py-2 rounded-lg font-montserrat font-medium transition-all duration-300 group ${
-                  isClient && pathname === '/' && !isScrolled
-                    ? isActivePath(item.path)
-                      ? 'text-white'
-                      : 'text-white hover:text-primary'
-                    : isActivePath(item.path)
-                      ? 'text-primary bg-accent'
-                      : 'text-secondary hover:text-primary hover:bg-accent/50'
-                }`}
-              >
-                <span className="flex items-center space-x-2">
-                  <Icon name={item.icon} size={18} />
-                  <span>{item.name}</span>
-                </span>
-                {isActivePath(item.path) && (isScrolled || pathname !== '/') && (
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></div>
-                )}
-              </Link>
-            ))}
-          </nav>
+          {/* Desktop Navigation - Always centered */}
+          <div className="flex-1 flex justify-center">
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.path}
+                  className={`relative px-4 py-2 rounded-lg font-montserrat font-medium transition-all duration-300 group ${
+                    isClient && pathname === '/' && !isScrolled
+                      ? isActivePath(item.path)
+                        ? 'text-white'
+                        : 'text-white hover:text-primary'
+                      : isActivePath(item.path)
+                        ? 'text-primary bg-accent'
+                        : 'text-secondary hover:text-primary hover:bg-accent/50'
+                  }`}
+                >
+                  <span className="flex items-center space-x-2">
+                    <Icon name={item.icon} size={18} />
+                    <span>{item.name}</span>
+                  </span>
+                  {isActivePath(item.path) && (isScrolled || pathname !== '/') && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></div>
+                  )}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
           {/* CTA Button & Mobile Menu Toggle */}
           <div className="flex items-center space-x-4">
