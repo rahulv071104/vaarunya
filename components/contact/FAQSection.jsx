@@ -83,14 +83,13 @@ Prices are valid for 15-30 days depending on market volatility.`
         {
           question: 'Do you offer volume discounts?',
           answer: `Yes, we offer attractive volume discounts:
-• 5-10% discount for orders above $50,000
-• 10-15% discount for orders above $100,000
-• 15-20% discount for orders above $500,000
-• Custom pricing for annual contracts above $1,000,000
+• Bronze Category - Clients with 5+ imports in a year are eligible for basic discounts.
+• Sliver Category - Clients with 10+ imports in a year are eligible for higher discounts.
+• Gold Category - Clients with 15+ imports in a year are eligible for premium discounts.
 
 Additional benefits for large orders:
 - Priority production scheduling
-- Dedicated account manager
+- Dedicated Representative
 - Flexible payment terms
 - Free quality inspections
 - Reduced shipping costs through consolidated shipments`
@@ -103,15 +102,14 @@ Additional benefits for large orders:
         {
           question: 'What shipping options are available?',
           answer: `We offer comprehensive shipping solutions:
-• Sea Freight: Most economical for large orders (15-45 days)
-• Air Freight: Faster delivery for urgent orders (3-7 days)
-• Express Courier: DHL/FedEx for samples and small orders (2-5 days)
+• Sea Freight: Most economical for large orders
+• Air Freight: Faster delivery for urgent orders
+• Express Courier: DHL/FedEx for samples and small orders
 • Land Transport: For neighboring countries via road/rail
 
 Shipping terms available:
 - FOB (Free on Board) - You arrange shipping
 - CIF (Cost, Insurance, Freight) - We handle everything to your port
-- DDP (Delivered Duty Paid) - Door-to-door service including customs
 
 We work with trusted logistics partners worldwide to ensure safe, timely delivery.`
         },
@@ -135,24 +133,7 @@ Our documentation team ensures:
 
 We also provide guidance on import procedures and can recommend trusted customs brokers in your country.`
         },
-        {
-          question: 'Can you handle door-to-door delivery?',
-          answer: `Yes, we offer complete door-to-door services:
-• Pick-up from supplier facilities in India
-• Export customs clearance
-• International shipping (sea/air)
-• Import customs clearance in destination country
-• Local delivery to your warehouse/address
-
-Our DDP (Delivered Duty Paid) service includes:
-- All shipping costs
-- Insurance coverage
-- Import duties and taxes
-- Local delivery charges
-- Real-time tracking throughout
-
-This service is available to most major cities worldwide. We handle everything so you can focus on your business while we manage the logistics.`
-        }
+       
       ]
     },
     {
@@ -197,29 +178,7 @@ All certificates are:
 
 We maintain relationships with certified testing laboratories worldwide to ensure compliance with your local regulations.`
         },
-        {
-          question: 'What if I receive defective products?',
-          answer: `We stand behind our quality with a comprehensive guarantee:
-• 100% replacement for manufacturing defects
-• Full refund if products don't meet specifications
-• Insurance coverage for shipping damage
-• 30-day quality guarantee from delivery date
-
-Our resolution process:
-1. Report issues within 7 days of receipt
-2. Provide photos/videos of defective items
-3. We investigate with supplier immediately
-4. Replacement/refund processed within 15 days
-5. We cover all return shipping costs
-
-Prevention measures:
-- Mandatory pre-shipment inspection
-- Supplier quality agreements
-- Regular supplier audits
-- Continuous improvement programs
-
-Your satisfaction is our priority, and we'll work tirelessly to resolve any quality issues quickly and fairly.`
-        }
+        
       ]
     }
   ];
