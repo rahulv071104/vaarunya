@@ -4,11 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/AppIcon';
-import slide2 from '@/carousel_images/Agro_commodities_img.png';
-import slide1 from '@/carousel_images/cargo_img.png';
-import slide5 from '@/carousel_images/coffee_img.png';
-import slide4 from '@/carousel_images/spices_img.png';
-import slide3 from '@/carousel_images/fruits_and_veg _mg.png';
+import slide2 from '@/carousel_images/Agro_commodities_img.jpeg';
+import slide1 from '@/carousel_images/cargo_img.jpeg';
+import slide5 from '@/carousel_images/coffee_img.jpeg';
+import slide4 from '@/carousel_images/spices_img.jpeg';
+import slide3 from '@/carousel_images/fruits_and_veg _mg.jpeg';
 
 const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
