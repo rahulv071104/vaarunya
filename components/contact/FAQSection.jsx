@@ -23,9 +23,9 @@ We're flexible for first-time clients and can discuss smaller trial orders to he
         {
           question: 'How do I place my first order?',
           answer: `Getting started is simple:
-1. Contact us through any channel (phone, email, WhatsApp, or this form)
+1. Contact us through any channel (phone, email, WhatsApp, or web form)
 2. Share your product requirements and specifications
-3. Receive detailed quotation within 4-24 hours
+3. Receive detailed quotation within 24 hours
 4. Review samples if needed (we can arrange sample shipments)
 5. Confirm order with 30% advance payment
 6. We handle all documentation and shipping
@@ -55,9 +55,6 @@ Samples help ensure you're completely satisfied with quality before placing larg
 • Bank Wire Transfer (T/T) - Most common for international trade
 • Letter of Credit (L/C) - For larger orders and new clients
 • PayPal - For smaller orders and samples
-• Western Union - For urgent payments
-• Trade Assurance - Through Alibaba platform
-• Cryptocurrency - Bitcoin and major altcoins accepted
 
 Payment terms are typically 30% advance, 70% before shipment, but we're flexible based on order size and client relationship.`
         },
@@ -66,8 +63,10 @@ Payment terms are typically 30% advance, 70% before shipment, but we're flexible
           answer: `Our pricing is based on several factors:
 • Product specifications and quality grade
 • Order quantity (volume discounts available)
-• Packaging requirements
-• Shipping destination and method
+    *Bronze Category - Clients with 5+ imports in a year are eligible for basic discounts.
+    *Sliver Category - Clients with 10+ imports in a year are eligible for higher discounts.
+    *Gold Category - Clients with 15+ imports in a year are eligible for premium discounts.
+• Port of origin and destination
 • Current market conditions
 • Seasonal availability
 
@@ -275,7 +274,7 @@ Your satisfaction is our priority, and we'll work tirelessly to resolve any qual
                       </button>
                       
                       <div className={`overflow-hidden transition-all duration-300 ${
-                        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                        isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                       }`}>
                         <div className="px-6 pb-4">
                           <div className="text-secondary-light whitespace-pre-line leading-relaxed">
