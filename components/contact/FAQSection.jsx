@@ -10,17 +10,6 @@ const FAQSection = () => {
       icon: 'Play',
       faqs: [
         {
-          question: 'What are your minimum order quantities?',
-          answer: `Our minimum order quantities vary by product category:
-• Agricultural Products: 1 container (20-40 tons)
-• Textiles & Garments: 500-1000 pieces per design
-• Spices & Seasonings: 100 kg minimum
-• Handicrafts: 50 pieces minimum
-• Electronics: Negotiable based on product value
-
-We're flexible for first-time clients and can discuss smaller trial orders to help you evaluate our products and services.`
-        },
-        {
           question: 'How do I place my first order?',
           answer: `Getting started is simple:
 1. Contact us through any channel (phone, email, WhatsApp, or web form)
