@@ -310,7 +310,7 @@ We maintain relationships with certified testing laboratories worldwide to ensur
                   Call Expert Now
                 </a>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/919100477554"
                   className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-montserrat font-semibold rounded-lg hover:bg-green-700 transition-all duration-300"
                 >
                   <Icon name="MessageCircle" size={20} className="mr-2" />
