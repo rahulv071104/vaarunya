@@ -50,14 +50,14 @@ Payment terms are typically 30% advance, 70% before shipment, but we're flexible
         {
           question: 'How do you determine pricing?',
           answer: `Our pricing is based on several factors:
-• Product specifications and quality grade
-• Order quantity (volume discounts available)
-    *Bronze Category - Clients with 5+ imports in a year are eligible for basic discounts.
-    *Sliver Category - Clients with 10+ imports in a year are eligible for higher discounts.
-    *Gold Category - Clients with 15+ imports in a year are eligible for premium discounts.
-• Port of origin and destination
-• Current market conditions
-• Seasonal availability
+1) Product specifications and quality grade
+2) Order quantity (volume discounts available):
+    • Bronze Category - Clients with 5+ imports in a year are eligible for basic discounts.
+    • Silver Category - Clients with 10+ imports in a year are eligible for higher discounts.
+    • Gold Category - Clients with 15+ imports in a year are eligible for premium discounts.
+3) Port of origin and destination
+4) Current market conditions
+5) Seasonal availability
 
 We provide detailed quotations breaking down all costs including:
 - Product cost per unit
@@ -73,7 +73,7 @@ Prices are valid for 15-30 days depending on market volatility.`
           question: 'Do you offer volume discounts?',
           answer: `Yes, we offer attractive volume discounts:
 • Bronze Category - Clients with 5+ imports in a year are eligible for basic discounts.
-• Sliver Category - Clients with 10+ imports in a year are eligible for higher discounts.
+• Silver Category - Clients with 10+ imports in a year are eligible for higher discounts.
 • Gold Category - Clients with 15+ imports in a year are eligible for premium discounts.
 
 Additional benefits for large orders:
@@ -86,7 +86,8 @@ Additional benefits for large orders:
       ]
     },
     {
-      category: 'Shipping & Logistics',icon: 'Truck',
+      category: 'Shipping & Logistics',
+      icon: 'Truck',
       faqs: [
         {
           question: 'What shipping options are available?',
@@ -122,11 +123,11 @@ Our documentation team ensures:
 
 We also provide guidance on import procedures and can recommend trusted customs brokers in your country.`
         },
-       
       ]
     },
     {
-      category: 'Quality & Compliance',icon: 'Shield',
+      category: 'Quality & Compliance',
+      icon: 'Shield',
       faqs: [
         {
           question: 'What quality assurance measures do you have?',
@@ -167,7 +168,6 @@ All certificates are:
 
 We maintain relationships with certified testing laboratories worldwide to ensure compliance with your local regulations.`
         },
-        
       ]
     }
   ];
@@ -177,6 +177,56 @@ We maintain relationships with certified testing laboratories worldwide to ensur
     setOpenFAQ(openFAQ === key ? null : key);
   };
 
+  // Function to process answer text and render category names in bold
+ const renderAnswer = (answer) => {
+  const lines = answer.split('\n');
+  return lines.map((line, index) => {
+    // Trim the line for consistent matching
+    const trimmedLine = line.trim();
+
+    // Check for category subpoints starting with • (e.g., • Bronze Category)
+    const categoryMatch = trimmedLine.match(/^•\s*(Bronze Category|Silver Category|Gold Category)\s*-\s*(.*)$/);
+    if (categoryMatch) {
+      const [, categoryName, description] = categoryMatch;
+      return (
+        <p key={index} className="text-secondary-light leading-relaxed ml-4">
+          <span className="font-bold">• {categoryName}</span>
+          <span className="font-normal"> - {description}</span>
+        </p>
+      );
+    }
+
+    // Check for numbered items (e.g., 1), 2), etc.)
+    const numberedMatch = trimmedLine.match(/^\d+\)\s*(.*)$/);
+    if (numberedMatch) {
+      const [, description] = numberedMatch;
+      return (
+        <p key={index} className="text-secondary-light leading-relaxed mr-4 font-normal">
+          {line}
+        </p>
+      );
+    }
+
+    // Check for regular bullet points starting with - (e.g., - Product cost per unit)
+    const bulletMatch = trimmedLine.match(/^-\s*(.*)$/);
+    if (bulletMatch) {
+      const [, description] = bulletMatch;
+      return (
+        <p key={index} className="text-secondary-light leading-relaxed ml-4 font-normal">
+          {line}
+        </p>
+      );
+    }
+
+    // Handle plain text lines
+    return (
+      <p key={index} className="text-secondary-light leading-relaxed font-normal">
+        {line}
+      </p>
+    );
+  });
+};
+
   return (
     <section className="pt-16 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -185,7 +235,7 @@ We maintain relationships with certified testing laboratories worldwide to ensur
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-secondary-light max-w-2xl mx-auto">
-            Get instant answers to common questions about our services, processes, and policies. 
+            Get instant answers to common questions about our services, processes, and policies.
             Can't find what you're looking for? Contact us directly.
           </p>
         </div>
@@ -214,19 +264,21 @@ We maintain relationships with certified testing laboratories worldwide to ensur
                         <span className="font-montserrat font-semibold text-secondary-dark pr-4">
                           {faq.question}
                         </span>
-                        <Icon 
-                          name={isOpen ? "ChevronUp" : "ChevronDown"} 
-                          size={20} 
-                          className="text-primary flex-shrink-0 transition-transform duration-300" 
+                        <Icon
+                          name={isOpen ? 'ChevronUp' : 'ChevronDown'}
+                          size={20}
+                          className="text-primary flex-shrink-0 transition-transform duration-300"
                         />
                       </button>
-                      
-                      <div className={`overflow-hidden transition-all duration-300 ${
-                        isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-                      }`}>
+
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ${
+                          isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                        }`}
+                      >
                         <div className="px-6 pb-4">
                           <div className="text-secondary-light whitespace-pre-line leading-relaxed">
-                            {faq.answer}
+                            {renderAnswer(faq.answer)}
                           </div>
                         </div>
                       </div>
@@ -238,35 +290,37 @@ We maintain relationships with certified testing laboratories worldwide to ensur
           ))}
         </div>
 
-        {/* Still Have Questions */}
-
-
-
-      </div>
-
-                  <section className="py-16  mt-12 bg-gradient-to-r from-primary to-primary-dark ">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+        <section className="py-16 mt-12 bg-gradient-to-r from-primary to-primary-dark">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
               <Icon name="HelpCircle" size={48} className="text-white mx-auto mb-4" />
-            <h2 className="text-2xl lg:text-3xl font-montserrat font-bold text-white mb-4">Still Have Questions?</h2>
-            <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-                           Our trade experts are available 24/7 to provide personalized assistance. 
-              Get detailed answers specific to your business needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+919876543210" className="inline-flex items-center px-6 py-3 bg-white text-primary font-montserrat font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300">
-                <Icon name="Phone" size={20} className="mr-2" />
-                Call Expert Now
-              </a>
-               <a href="https://wa.me/919876543210" className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-montserrat font-semibold rounded-lg hover:bg-green-700 transition-all duration-300">
-               
-                <Icon name="MessageCircle" size={20} className="mr-2" />
-                WhatsApp Chat
-              </a>
+              <h2 className="text-2xl lg:text-3xl font-montserrat font-bold text-white mb-4">
+                Still Have Questions?
+              </h2>
+              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+                Our trade experts are available 24/7 to provide personalized assistance.
+                Get detailed answers specific to your business needs.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="tel:+919100477554"
+                  className="inline-flex items-center px-6 py-3 bg-white text-primary font-montserrat font-semibold rounded-lg hover:bg-gray-100 transition-all duration-300"
+                >
+                  <Icon name="Phone" size={20} className="mr-2" />
+                  Call Expert Now
+                </a>
+                <a
+                  href="https://wa.me/919876543210"
+                  className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-montserrat font-semibold rounded-lg hover:bg-green-700 transition-all duration-300"
+                >
+                  <Icon name="MessageCircle" size={20} className="mr-2" />
+                  WhatsApp Chat
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </section>
   );
 };
