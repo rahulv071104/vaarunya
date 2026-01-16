@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '@/components/AppIcon';
+import { submitContactFormAction } from '@/app/actions/data';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -137,18 +138,7 @@ const ContactForm = () => {
     };
 
     try {
-      const response = await fetch('/api/contact_form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to submit inquiry');
-      }
+      await submitContactFormAction(submissionData);
 
       setSubmitSuccess(true);
       setFormData({
@@ -168,7 +158,7 @@ const ContactForm = () => {
         urgency: 'normal'
       });
     } catch (error) {
-      setApiError(error.message);
+      setApiError(error.message || 'Failed to submit inquiry');
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
