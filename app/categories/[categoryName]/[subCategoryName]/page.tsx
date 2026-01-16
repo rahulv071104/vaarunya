@@ -5,29 +5,13 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/AppIcon';
 import SearchBar from '@/components/products/SearchBar';
-import { getCategories, getSubcategories, getProducts } from '@/app/hooks/data-fetching-hooks';
+import { getCategories, getSubcategories, getProducts, Category, Subcategory, Product } from '@/app/hooks/data-fetching-hooks';
 
 // Types
-interface Category {
-  id: string;
-  category_name: string;
-}
-
-interface Subcategory {
-  id: string;
-  subcategory_name: string;
-  category_id: string;
-}
-
-interface Product {
-  uuid: string;
-  hs_code: string;
-  product_name: string;
-  product_description: string | null;
-  sub_category_id: string;
-  subcategory_name: string;
-  category_name: string;
-}
+// specific types removed in favor of imported ones
+// interface Category ...
+// interface Subcategory ...
+// interface Product ...
 
 const ProductsPage: React.FC = () => {
   const params = useParams();
