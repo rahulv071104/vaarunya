@@ -5,6 +5,7 @@ import { Inter, Montserrat } from 'next/font/google'
 import "./globals.css";
 import Header from "@/components/ui/Header";
 import ErrorBoundary  from "@/components/ErrorBoundary";
+import ImageCacheInitializer from "@/components/ImageCacheInitializer";
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body  className={`${inter.variable} ${montserrat.variable}`}>
+        <ImageCacheInitializer />
         <ErrorBoundary>
         <Header/>
         </ErrorBoundary>

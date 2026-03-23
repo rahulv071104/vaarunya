@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import OptimizedImage from '@/components/OptimizedImage';
 import Icon from '@/components/AppIcon';
 import { getCategories, getSubcategories } from '@/app/hooks/data-fetching-hooks';
+import { usePrefetchImages } from '@/hooks/useOptimizedImage';
 
 // Types
 interface FetchedCategory {
@@ -37,6 +38,13 @@ const ProductCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Prefetch images for better performance
+  const imagesToPrefetch = useMemo(() => 
+    categories.map(cat => cat.image).filter(Boolean),
+    [categories]
+  );
+  usePrefetchImages(imagesToPrefetch);
 
   // Fetch categories
   useEffect(() => {
@@ -109,14 +117,17 @@ const ProductCategories = () => {
             onMouseLeave={() => setHoveredCategory(null)}
           >
             {/* Image Container */}
-            <div className="relative h-64 overflow-hidden">
-              <Image
-              src={category.image || ''}
+            <div className="relative h-64 overflow-hidden bg-gray-100">
+              <OptimizedImage
+                src={category.image || ''}
                 alt={category.name}
                 width={800}
                 height={400}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                priority={category.id <= '3'}
+                className="w-full h-full group-hover:scale-110 transition-transform duration-700"
+                priority={false}
+                quality={75}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                showLoader={true}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
 

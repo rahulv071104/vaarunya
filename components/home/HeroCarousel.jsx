@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from '@/components/OptimizedImage';
 import Icon from '@/components/AppIcon';
+import { usePrefetchImages } from '@/hooks/useOptimizedImage';
 import slide2 from '@/carousel_images/Agro_commodities_img.jpeg';
 import slide1 from '@/carousel_images/cargo_img.jpeg';
 import slide5 from '@/carousel_images/coffee_img.jpeg';
@@ -68,6 +69,10 @@ const HeroCarousel = () => {
       features: ['Real-time Tracking', 'Documentation Support', 'Compliance Guidance'],
     },
   ];
+
+  // Prefetch all carousel images
+  const slideImages = useMemo(() => slides.map(s => s.backgroundImage.src), []);
+  usePrefetchImages(slideImages);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -171,14 +176,14 @@ const HeroCarousel = () => {
             >
               {/* Background Image */}
               <div className="absolute inset-0">
-                <Image
+                <OptimizedImage
                   src={slide.backgroundImage}
                   alt={slide.title}
                   width={2070}
                   height={1080}
-                  className="w-full h-full object-cover"
-                  priority // Preload all images
-                  quality={90} // Optimize image quality
+                  priority={isCurrent}
+                  quality={85}
+                  sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
               </div>
