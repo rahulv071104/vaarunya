@@ -52,17 +52,20 @@ const ProductsPage: React.FC = () => {
   );
 
   // Memoized filtered products
-  const filteredProducts = useMemo(
-    () =>
+  const filteredProducts = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (!normalizedQuery) return products || [];
+
+    return (
       products?.filter(product => {
-        const matchesSearch =
-          product.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.product_description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          false;
-        return matchesSearch;
-      }) || [],
-    [products, searchQuery]
-  );
+        const hsCodeMatch = product.hs_code?.toLowerCase().includes(normalizedQuery);
+        const nameMatch = product.product_name.toLowerCase().includes(normalizedQuery);
+        const descriptionMatch = product.product_description?.toLowerCase().includes(normalizedQuery) || false;
+
+        return hsCodeMatch || nameMatch || descriptionMatch;
+      }) || []
+    );
+  }, [products, searchQuery]);
 
   // Fetch data
   useEffect(() => {
