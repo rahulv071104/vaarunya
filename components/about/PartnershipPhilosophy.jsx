@@ -257,7 +257,7 @@ We maintain open channels of communication, provide regular updates, and address
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
-          href="/get-quote-intelligent-conversion-portal"
+          href="/contact#contact-form"
           className="btn-primary inline-flex items-center"
         >
           <Icon name="MessageSquare" size={20} className="mr-2" />

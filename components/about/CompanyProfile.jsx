@@ -298,7 +298,7 @@ const CompanyProfile = () => {
                   Request Additional Resources
                 </a>
                 <a
-                  href="/get-quote-intelligent-conversion-portal"
+                  href="/contact#contact-form"
                   className="btn-secondary inline-flex items-center"
                 >
                   <Icon name="MessageSquare" size={20} className="mr-2" />

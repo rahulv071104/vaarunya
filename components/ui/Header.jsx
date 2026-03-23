@@ -176,7 +176,7 @@ const Header = () => {
           
           {/* Mobile CTA */}
           <Link
-            href="/get-quote-intelligent-conversion-portal"
+            href="/contact#contact-form"
             onClick={closeMenu}
             className="flex items-center space-x-2 px-4 py-3 text-primary font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
           >

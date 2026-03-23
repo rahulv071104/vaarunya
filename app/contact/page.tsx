@@ -228,7 +228,7 @@ export default function ContactPage() {
         <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
         Join thousands of businesses who trust Vaarunya for their international trade needs. Let's build your global success story together.
         </p>
-        <Link href="/get-quote-intelligent-conversion-portal" className="inline-flex items-center px-8 py-4 bg-primary text-white font-montserrat font-bold text-lg rounded-lg hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300">
+        <Link href="/contact#contact-form" className="inline-flex items-center px-8 py-4 bg-primary text-white font-montserrat font-bold text-lg rounded-lg hover:bg-primary-dark hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300">
         <Icon name="ArrowRight" size={24} className="mr-2" />
         Get Your Custom Quote
         </Link>

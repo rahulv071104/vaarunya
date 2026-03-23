@@ -24,7 +24,7 @@ const HeroCarousel = () => {
       title: 'Global Export Excellence',
       subtitle: 'Connecting businesses worldwide with premium quality products',
       backgroundImage: slide1,
-      primaryCTA: { text: 'Get Quote', link: '/get-quote-intelligent-conversion-portal' },
+      primaryCTA: { text: 'Get Quote', link: '/contact#contact-form' },
       secondaryCTA: { text: 'Explore Products', link: '/categories' },
       features: ['Global Network', 'Quality Assured', 'Transparent Process'],
     },
