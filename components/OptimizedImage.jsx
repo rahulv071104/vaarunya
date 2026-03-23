@@ -15,8 +15,9 @@ import { useState, useEffect } from 'react';
  * @param {Object} props
  * @param {string} props.src - Image source URL
  * @param {string} props.alt - Alt text for image
- * @param {number} props.width - Image width
- * @param {number} props.height - Image height
+ * @param {number} [props.width] - Image width (not needed with fill)
+ * @param {number} [props.height] - Image height (not needed with fill)
+ * @param {boolean} [props.fill] - Use fill layout (fills parent container)
  * @param {boolean} [props.priority=false] - Priority loading
  * @param {string} [props.className=''] - CSS class name
  * @param {string} [props.objectFit='cover'] - CSS object-fit
@@ -33,6 +34,7 @@ export default function OptimizedImage({
   alt,
   width,
   height,
+  fill = false,
   priority = false,
   className = '',
   objectFit = 'cover',
@@ -60,6 +62,41 @@ export default function OptimizedImage({
     setCurrentSrc(fallbackSrc);
   };
 
+  // For fill mode, don't use wrapper with aspectRatio - parent handles sizing
+  if (fill) {
+    return (
+      <>
+        {/* Loading Skeleton */}
+        {showLoader && isLoading && (
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse z-10" />
+        )}
+
+        {/* Image with fill */}
+        <Image
+          src={currentSrc}
+          alt={alt}
+          fill={true}
+          priority={priority}
+          quality={quality}
+          sizes={sizes}
+          className={`object-${objectFit === 'cover' ? 'cover' : 'contain'} ${
+            isLoading ? 'blur-sm' : 'blur-0'
+          } transition-all duration-300 ${className}`}
+          style={{
+            objectPosition,
+            ...props.style,
+          }}
+          placeholder={blurDataURL ? 'blur' : 'empty'}
+          blurDataURL={blurDataURL}
+          onLoadingComplete={handleLoadingComplete}
+          onError={handleError}
+          {...props}
+        />
+      </>
+    );
+  }
+
+  // For fixed dimensions mode
   return (
     <div className={`relative overflow-hidden ${className}`} style={{ aspectRatio: width / height }}>
       {/* Loading Skeleton */}

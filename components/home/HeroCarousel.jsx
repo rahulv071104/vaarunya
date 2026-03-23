@@ -147,12 +147,16 @@ const HeroCarousel = () => {
 
   return (
     <div
-      className="relative h-screen overflow-hidden"
+      className="relative w-full overflow-hidden"
       ref={carouselRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      style={{ touchAction: 'pan-y' }}
+      style={{ 
+        height: '100vh',
+        maxHeight: '100dvh', // Use dynamic viewport height on mobile
+        touchAction: 'pan-y'
+      }}
     >
       {/* Slides */}
       <div className="relative w-full h-full">
@@ -182,47 +186,40 @@ const HeroCarousel = () => {
               }}
             >
               {/* Background Image */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 w-full h-full">
                 <OptimizedImage
                   src={slide.backgroundImage}
                   alt={slide.title}
-                  width={2070}
-                  height={1080}
+                  fill={true}
                   priority={isCurrent}
-                  quality={85}
+                  quality={isCurrent ? 90 : 75}
                   sizes="100vw"
+                  objectFit="cover"
+                  objectPosition="center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
               </div>
 
               {/* Content */}
-              <div className="relative z-10 h-full flex items-center justify-center">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
-                  <div className="max-w-3xl mx-auto">
-                    <div className="animation-fade-in">
-                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-6 leading-tight">
-                        {slide.title}
-                      </h1>
-                      <p className="text-lg sm:text-xl text-gray-200 mb-8 leading-relaxed mx-auto">
-                        {slide.subtitle}
-                      </p>
+              <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6">
+                <div className="w-full text-center max-w-4xl mx-auto">
+                  <div className="animation-fade-in">
+                    <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-3 sm:mb-6 leading-tight">
+                      {slide.title}
+                    </h1>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-200 mb-6 sm:mb-8 leading-relaxed mx-auto px-2 sm:px-0">
+                      {slide.subtitle}
+                    </p>
 
-                      {/* CTAs */}
-                      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      {/* <Link
-                        href={slide.primaryCTA.link}
-                        className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-montserrat font-semibold rounded-lg hover:bg-primary-dark transition-all duration-300"
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                      <Link
+                        href={slide.secondaryCTA.link}
+                        className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-montserrat font-semibold text-sm sm:text-base rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
                       >
-                        {slide.primaryCTA.text}
-                      </Link> */}
-                        <Link
-                          href={slide.secondaryCTA.link}
-                          className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-montserrat font-semibold rounded-lg hover:bg-white hover:text-secondary transition-all duration-300"
-                        >
-                          <Icon name="Play" size={20} className="mr-2" />
-                          {slide.secondaryCTA.text}
-                        </Link>
-                      </div>
+                        <Icon name="Play" size={18} className="mr-2" />
+                        {slide.secondaryCTA.text}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -233,12 +230,12 @@ const HeroCarousel = () => {
       </div>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === currentSlide ? 'bg-primary scale-125' : 'bg-white/50 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
