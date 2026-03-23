@@ -48,7 +48,7 @@ const CategoriesPage: React.FC = () => {
   // Render breadcrumbs
   const renderBreadcrumbs = () => (
     <nav className="flex items-center justify-center text-sm text-secondary-light">
-      <Link href="/homepage-premium-b2b-trade-platform" className="hover:text-primary transition-colors">
+      <Link href="/categories" className="hover:text-primary transition-colors">
         Home
       </Link>
       <Icon name="ChevronRight" size={16} className="mx-2" />
