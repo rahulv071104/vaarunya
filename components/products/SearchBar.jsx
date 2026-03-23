@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Icon from '@/components/AppIcon';
 
-const SearchBar = ({ searchQuery, setSearchQuery, placeholder }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, placeholder, suggestions = [], onSuggestionSelected, onSearchSubmit }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [suggestions] = useState([
-    'Turmeric Powder', 'Basmati Rice', 'Organic Cotton', 'Cardamom', 
+  const suggestedItems = suggestions.length > 0 ? suggestions : [
+    'Turmeric Powder', 'Basmati Rice', 'Organic Cotton', 'Cardamom',
     'Black Pepper', 'Cumin Seeds', 'Handicrafts', 'Textiles'
-  ]);
+  ];
 
   const filteredSuggestions = suggestions.filter(suggestion =>
     suggestion.toLowerCase().includes(searchQuery.toLowerCase()) && 
@@ -15,6 +15,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, placeholder }) => {
 
   const handleSuggestionClick = (suggestion) => {
     setSearchQuery(suggestion);
+    if (onSuggestionSelected) onSuggestionSelected(suggestion);
     setIsFocused(false);
   };
 
@@ -37,6 +38,11 @@ const SearchBar = ({ searchQuery, setSearchQuery, placeholder }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && onSearchSubmit) {
+              onSearchSubmit(searchQuery.trim());
+            }
+          }}
           placeholder={placeholder}
           className="w-full pl-10 pr-10 py-3 bg-white border border-border rounded-lg focus:outline-none focus:border-primary transition-all duration-300"
         />

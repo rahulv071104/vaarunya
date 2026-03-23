@@ -77,21 +77,41 @@ export const getSubcategories = async (categoryId: string): Promise<Subcategory[
  * Cache is persistent throughout the session since products are static
  */
 export const getProducts = async (subcategoryId: string): Promise<Product[]> => {
-  const cacheKey = generateCacheKey("/api/products", { sub_category_id: subcategoryId });
-  
+  const cacheKey = generateCacheKey('/api/products', { sub_category_id: subcategoryId });
+
   // Check cache first
   const cachedData = getFromCache<Product[]>(cacheKey);
   if (cachedData) {
     return cachedData;
   }
-  
+
   // Fetch from API if not cached
   const res = await fetch(`/api/products?sub_category_id=${encodeURIComponent(subcategoryId)}`);
-  if (!res.ok) throw new Error("Failed to fetch products");
+  if (!res.ok) throw new Error('Failed to fetch products');
   const data = await res.json();
-  
+
   // Cache indefinitely (static data)
   setInCache(cacheKey, data);
-  
+
+  return data;
+};
+
+/**
+ * Global search for products across categories/subcategories
+ */
+export const searchProducts = async (query: string): Promise<Product[]> => {
+  const cacheKey = generateCacheKey('/api/products', { search: query });
+
+  const cachedData = getFromCache<Product[]>(cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
+  const res = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+  if (!res.ok) throw new Error('Failed to search products');
+  const data = await res.json();
+
+  setInCache(cacheKey, data);
+
   return data;
 };

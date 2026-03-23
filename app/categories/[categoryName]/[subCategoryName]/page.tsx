@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/AppIcon';
 import SearchBar from '@/components/products/SearchBar';
@@ -31,14 +31,25 @@ interface Product {
 
 const ProductsPage: React.FC = () => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const categoryName = decodeURIComponent(params.categoryName as string);
   const subcategoryName = decodeURIComponent(params.subCategoryName as string);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [products, setProducts] = useState<Product[] | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Debounce search input for better UX and performance
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery.trim());
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Find selected category and subcategory based on URL parameters
   const selectedCategory = useMemo(
@@ -51,9 +62,19 @@ const ProductsPage: React.FC = () => {
     [subcategories, subcategoryName]
   );
 
+  // Search suggestions based on fetched product names for quick one-click search
+  const searchSuggestions = useMemo(() => {
+    if (!products?.length) return [];
+    const names = products
+      .map(prod => prod.product_name)
+      .filter((name, index, arr) => name && arr.indexOf(name) === index)
+      .slice(0, 30);
+    return names;
+  }, [products]);
+
   // Memoized filtered products
   const filteredProducts = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const normalizedQuery = debouncedQuery.trim().toLowerCase();
     if (!normalizedQuery) return products || [];
 
     return (
@@ -61,11 +82,13 @@ const ProductsPage: React.FC = () => {
         const hsCodeMatch = product.hs_code?.toLowerCase().includes(normalizedQuery);
         const nameMatch = product.product_name.toLowerCase().includes(normalizedQuery);
         const descriptionMatch = product.product_description?.toLowerCase().includes(normalizedQuery) || false;
+        const subcategoryMatch = product.subcategory_name?.toLowerCase().includes(normalizedQuery) || false;
+        const categoryMatch = product.category_name?.toLowerCase().includes(normalizedQuery) || false;
 
-        return hsCodeMatch || nameMatch || descriptionMatch;
+        return hsCodeMatch || nameMatch || descriptionMatch || subcategoryMatch || categoryMatch;
       }) || []
     );
-  }, [products, searchQuery]);
+  }, [products, debouncedQuery]);
 
   // Fetch data
   useEffect(() => {
@@ -95,6 +118,14 @@ const ProductsPage: React.FC = () => {
         .finally(() => setIsLoading(false));
     }
   }, [selectedSubcategory]);
+
+  // Pre-fill search from query param when opened via global search
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    if (queryParam && queryParam.trim().length > 0) {
+      setSearchQuery(queryParam.trim());
+    }
+  }, [searchParams]);
 
   // Render breadcrumbs
   const renderBreadcrumbs = () => (
@@ -160,7 +191,12 @@ const ProductsPage: React.FC = () => {
             </table>
           </div>
         ) : (
-          <p className="text-secondary-light text-center">No products found.</p>
+          <div className="text-center text-secondary-light">
+            <p>No products found.</p>
+            {debouncedQuery && (
+              <p className="text-sm text-foreground-muted">No results match "{debouncedQuery}".</p>
+            )}
+          </div>
         )}
       </div>
     );
@@ -178,7 +214,13 @@ const ProductsPage: React.FC = () => {
               Discover products under {subcategoryName}.
             </p>
             <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-8">
-              <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder="Search products..." />
+              <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              placeholder="Search products..."
+              suggestions={searchSuggestions}
+              onSuggestionSelected={(value) => setSearchQuery(value)}
+            />
             </div>
             {renderBreadcrumbs()}
           </div>

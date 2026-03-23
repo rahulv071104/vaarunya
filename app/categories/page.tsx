@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/AppIcon';
 import CategoryCard from '@/components/products/CategoryCard';
 import SearchBar from '@/components/products/SearchBar';
-import { getCategories } from '@/app/hooks/data-fetching-hooks';
+import { getCategories, searchProducts } from '@/app/hooks/data-fetching-hooks';
 
 // Types
 interface Category {
@@ -16,6 +17,7 @@ interface Category {
 }
 
 const CategoriesPage: React.FC = () => {
+  const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -102,7 +104,32 @@ const CategoriesPage: React.FC = () => {
               Discover our comprehensive range of premium product categories.
             </p>
             <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-8">
-              <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} placeholder="Search categories..." />
+              <SearchBar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                placeholder="Search categories or products..."
+                onSearchSubmit={async (query) => {
+                  if (!query) return;
+
+                  try {
+                    const products = await searchProducts(query);
+                    if (products.length > 0) {
+                      // Prefer exact match on product name
+                      const exact = products.find(p => p.product_name.toLowerCase() === query.toLowerCase());
+                      const target = exact || products[0];
+                      const categorySlug = encodeURIComponent(target.category_name.toLowerCase());
+                      const subcategorySlug = encodeURIComponent(target.subcategory_name.toLowerCase());
+
+                      router.push(`/categories/${categorySlug}/${subcategorySlug}?q=${encodeURIComponent(query)}`);
+                      return;
+                    }
+                  } catch (error) {
+                    console.error('Product search failed', error);
+                  }
+
+                  // If no product matches, fallback to category search filter
+                }}
+              />
               <div className="flex items-center bg-white rounded-lg border border-border">
                 <button
                   onClick={() => toggleViewMode('grid')}
