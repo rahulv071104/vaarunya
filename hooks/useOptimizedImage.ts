@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /**
  * useOptimizedImage Hook
  * Handles image loading states, prefetching, and caching
  */
-export const useOptimizedImage = (src, options = {}) => {
+export const useOptimizedImage = (src: string, options: Record<string, any> = {}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isCached, setIsCached] = useState(false);
@@ -37,9 +37,12 @@ export const useOptimizedImage = (src, options = {}) => {
  * usePrefetchImages Hook
  * Prefetches images for better perceived performance
  */
-export const usePrefetchImages = (imageSources = []) => {
+export const usePrefetchImages = (imageSources: string[] = []) => {
   useEffect(() => {
+    if (!imageSources || imageSources.length === 0) return;
+    
     imageSources.forEach((src) => {
+      if (!src) return;
       const link = document.createElement('link');
       link.rel = 'prefetch';
       link.as = 'image';
@@ -53,7 +56,11 @@ export const usePrefetchImages = (imageSources = []) => {
  * useIntersectionObserver Hook
  * Triggers callback when element enters viewport
  */
-export const useIntersectionObserver = (ref, callback, options = {}) => {
+export const useIntersectionObserver = (
+  ref: React.RefObject<HTMLElement>,
+  callback: () => void,
+  options: { once?: boolean; threshold?: number; rootMargin?: string } = {}
+) => {
   useEffect(() => {
     if (!ref.current) return;
 

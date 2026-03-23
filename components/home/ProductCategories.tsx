@@ -41,7 +41,9 @@ const ProductCategories = () => {
 
   // Prefetch images for better performance
   const imagesToPrefetch = useMemo(() => 
-    categories.map(cat => cat.image).filter(Boolean),
+    categories
+      .map(cat => cat.image)
+      .filter((img): img is string => Boolean(img)),
     [categories]
   );
   usePrefetchImages(imagesToPrefetch);

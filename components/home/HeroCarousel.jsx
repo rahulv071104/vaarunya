@@ -71,7 +71,14 @@ const HeroCarousel = () => {
   ];
 
   // Prefetch all carousel images
-  const slideImages = useMemo(() => slides.map(s => s.backgroundImage.src), []);
+  const slideImages = useMemo(() => {
+    const images = [];
+    slides.forEach(s => {
+      const src = typeof s.backgroundImage === 'string' ? s.backgroundImage : s.backgroundImage?.src;
+      if (src) images.push(src);
+    });
+    return images;
+  }, [slides]);
   usePrefetchImages(slideImages);
 
   useEffect(() => {

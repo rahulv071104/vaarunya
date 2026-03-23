@@ -11,6 +11,22 @@ import { useState, useEffect } from 'react';
  * - Proper caching headers
  * - Responsive sizing
  * - Error handling with fallback
+ * 
+ * @param {Object} props
+ * @param {string} props.src - Image source URL
+ * @param {string} props.alt - Alt text for image
+ * @param {number} props.width - Image width
+ * @param {number} props.height - Image height
+ * @param {boolean} [props.priority=false] - Priority loading
+ * @param {string} [props.className=''] - CSS class name
+ * @param {string} [props.objectFit='cover'] - CSS object-fit
+ * @param {string} [props.objectPosition='center'] - CSS object-position
+ * @param {number} [props.quality=80] - Image quality
+ * @param {string} [props.sizes] - Responsive sizes string
+ * @param {Function} [props.onLoadingComplete] - Callback when image loads
+ * @param {string} [props.blurDataURL] - Blur placeholder data URL
+ * @param {boolean} [props.showLoader=false] - Show loading animation
+ * @param {string} [props.fallbackSrc] - Fallback image URL
  */
 export default function OptimizedImage({
   src,
@@ -22,9 +38,9 @@ export default function OptimizedImage({
   objectFit = 'cover',
   objectPosition = 'center',
   quality = 80,
-  sizes,
-  onLoadingComplete,
-  blurDataURL,
+  sizes = undefined,
+  onLoadingComplete = undefined,
+  blurDataURL = undefined,
   showLoader = false,
   fallbackSrc = '/assets/images/no_image.png',
   ...props
