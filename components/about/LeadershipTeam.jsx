@@ -17,7 +17,7 @@ const LeadershipTeam = () => {
       position: "Chairman & Co-Founder",
       experience: "12+ Years",
       image: slide3,
-      bio: `Surya Teja Veeramachineni is the Co-Founder and Chairman of Vaarunya Global EXIM, providing visionary leadership and shaping the company’s strategic direction, governance, and long-term positioning. With a deep-rooted belief in sustainable growth and inclusive value creation, Surya Teja plays a key role in shaping Vaarunya’s long-term strategy, governance, and global positioning.
+      bio: `Surya Teja Veeramachaneni is the Co-Founder and Chairman of Vaarunya Global EXIM, providing visionary leadership and shaping the company’s strategic direction, governance, and long-term positioning. With a deep-rooted belief in sustainable growth and inclusive value creation, Surya Teja plays a key role in shaping Vaarunya’s long-term strategy, governance, and global positioning.
       He brings a sharp entrepreneurial mindset and a strong focus on innovation, risk management, and stakeholder alignment ensuring the company remains resilient, future-focused, and impact-driven. As Chairman, Surya Teja champions Vaarunya’s mission of building a transparent, ethical, and high-performing export ecosystem that benefits both grassroots producers and global trade partners.
       His leadership continues to inspire the company’s pursuit of excellence, responsibility, and long-term impact.`,
       philosophy: "Business is not just about profit; it's about building relationships that create value for everyone involved.",
