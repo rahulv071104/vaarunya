@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/AppIcon';
@@ -16,6 +16,12 @@ interface Category {
   description: string | null;
 }
 
+interface ProductSuggestion {
+  product_name: string;
+  category_name: string | null;
+  subcategory_name: string | null;
+}
+
 const CategoriesPage: React.FC = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -24,6 +30,10 @@ const CategoriesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Live product suggestions state
+  const [productSuggestions, setProductSuggestions] = useState<ProductSuggestion[]>([]);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Memoized filtered categories
   const filteredCategories = useMemo(
     () =>
@@ -31,6 +41,12 @@ const CategoriesPage: React.FC = () => {
         category.category_name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     [categories, searchQuery]
+  );
+
+  // Suggestion names for SearchBar dropdown
+  const suggestionNames = useMemo(
+    () => productSuggestions.map(p => p.product_name).filter(Boolean),
+    [productSuggestions]
   );
 
   // Toggle view mode
@@ -46,6 +62,45 @@ const CategoriesPage: React.FC = () => {
       .catch(err => setError('Failed to load categories. Please try again.'))
       .finally(() => setIsLoading(false));
   }, []);
+
+  // Debounced live product search for suggestions
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    if (searchQuery.trim().length < 2) {
+      setProductSuggestions([]);
+      return;
+    }
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const results = await searchProducts(searchQuery.trim());
+        setProductSuggestions(results.slice(0, 8));
+      } catch {
+        // silently ignore suggestion errors
+      }
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [searchQuery]);
+
+  // Navigate to product's subcategory page
+  const navigateToProduct = useCallback((product: ProductSuggestion) => {
+    const categorySlug = (product.category_name ?? '').toLowerCase().trim();
+    const subcategorySlug = (product.subcategory_name ?? '').toLowerCase().trim();
+    if (!categorySlug || !subcategorySlug) return;
+    router.push(
+      `/categories/${encodeURIComponent(categorySlug)}/${encodeURIComponent(subcategorySlug)}?q=${encodeURIComponent(product.product_name)}`
+    );
+  }, [router]);
+
+  // Handle suggestion selected from dropdown
+  const handleSuggestionSelected = useCallback((name: string) => {
+    const match = productSuggestions.find(p => p.product_name === name);
+    if (match) navigateToProduct(match);
+  }, [productSuggestions, navigateToProduct]);
 
   // Render breadcrumbs
   const renderBreadcrumbs = () => (
@@ -108,26 +163,14 @@ const CategoriesPage: React.FC = () => {
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 placeholder="Search categories or products..."
-                onSearchSubmit={async (query) => {
+                suggestions={suggestionNames}
+                onSuggestionSelected={handleSuggestionSelected}
+                onSearchSubmit={async (query: string) => {
                   if (!query) return;
-
-                  try {
-                    const products = await searchProducts(query);
-                    if (products.length > 0) {
-                      // Prefer exact match on product name
-                      const exact = products.find(p => p.product_name.toLowerCase() === query.toLowerCase());
-                      const target = exact || products[0];
-                      const categorySlug = encodeURIComponent(target.category_name.toLowerCase());
-                      const subcategorySlug = encodeURIComponent(target.subcategory_name.toLowerCase());
-
-                      router.push(`/categories/${categorySlug}/${subcategorySlug}?q=${encodeURIComponent(query)}`);
-                      return;
-                    }
-                  } catch (error) {
-                    console.error('Product search failed', error);
-                  }
-
-                  // If no product matches, fallback to category search filter
+                  const match = productSuggestions.find(
+                    p => p.product_name?.toLowerCase() === query.toLowerCase()
+                  ) ?? productSuggestions[0];
+                  if (match) navigateToProduct(match);
                 }}
               />
               <div className="flex items-center bg-white rounded-lg border border-border">
