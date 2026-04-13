@@ -27,6 +27,15 @@ export default function RootLayout({
         <Header/>
         </ErrorBoundary>
         {children}
+        <div className="fixed bottom-4 left-4 z-50 sm:bottom-6 sm:left-6 p-2 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <iframe 
+            id='Iframe1' 
+            src='https://dunsregistered.dnb.com/SealAuthentication.aspx?Cid=1' 
+            width='114' 
+            height='97' 
+            style={{ border: 'none', overflow: 'hidden' }}
+          ></iframe>
+        </div>
       </body>
     </html>
   );
