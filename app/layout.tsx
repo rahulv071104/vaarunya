@@ -27,7 +27,7 @@ export default function RootLayout({
         <Header/>
         </ErrorBoundary>
         {children}
-        <div className="fixed bottom-4 left-4 z-50 sm:bottom-6 sm:left-6 opacity-85 hover:opacity-100 transition-all duration-300 hover:-translate-y-1 pointer-events-auto">
+        <div className="fixed bottom-4 right-4 z-[99] sm:bottom-6 sm:right-6 bg-white/90 backdrop-blur-md p-2.5 rounded-2xl shadow-xl border border-gray-100 transition-transform duration-300 hover:-translate-y-1">
           <iframe 
             id='Iframe1' 
             src='https://dunsregistered.dnb.com/SealAuthentication.aspx?Cid=1' 
