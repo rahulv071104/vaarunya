@@ -27,13 +27,13 @@ export default function RootLayout({
         <Header/>
         </ErrorBoundary>
         {children}
-        <div className="fixed bottom-4 right-4 z-[99] sm:bottom-6 sm:right-6 bg-white/90 backdrop-blur-md p-2.5 rounded-2xl shadow-xl border border-gray-100 transition-transform duration-300 hover:-translate-y-1">
+        <div className="fixed bottom-4 right-4 z-[100] sm:bottom-6 sm:right-6 bg-white/90 backdrop-blur-md p-2.5 rounded-2xl shadow-xl border border-gray-100 transition-transform duration-300 hover:-translate-y-1 overflow-hidden">
           <iframe 
             id='Iframe1' 
             src='https://dunsregistered.dnb.com/SealAuthentication.aspx?Cid=1' 
             width='114' 
             height='97' 
-            style={{ border: 'none', overflow: 'hidden' }}
+            style={{ border: 'none', overflow: 'hidden', display: 'block' }}
           ></iframe>
         </div>
       </body>
